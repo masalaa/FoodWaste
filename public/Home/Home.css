@@ -1,0 +1,187 @@
+body, html {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  background: #FFE9CC;
+  font-family: 'Fredoka', Arial, sans-serif;
+  color: #4A1F0F;
+  box-sizing: border-box;
+}
+
+.main-bg {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #FFE9CC;
+}
+
+.hero {
+  width: 100%;
+  padding: 4rem 1rem 2rem 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+}
+
+.floating-emojis {
+  position: absolute;
+  top: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 2.5rem;
+  z-index: 2;
+}
+
+.emoji {
+  font-size: 2.5rem;
+  animation: float 3s ease-in-out infinite;
+  filter: drop-shadow(0 2px 8px #FF944D88);
+}
+.emoji:nth-child(1) { animation-delay: 0s; }
+.emoji:nth-child(2) { animation-delay: 0.5s; }
+.emoji:nth-child(3) { animation-delay: 1s; }
+.emoji:nth-child(4) { animation-delay: 1.5s; }
+.emoji:nth-child(5) { animation-delay: 2s; }
+
+@keyframes float {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-18px) scale(1.08); }
+}
+
+.hero-title {
+  font-size: 2.8rem;
+  font-weight: 700;
+  color: #4A1F0F;
+  margin-top: 4.5rem;
+  margin-bottom: 0.7rem;
+  text-align: center;
+  letter-spacing: 1px;
+  text-shadow: 0 2px 12px #FFA36655;
+}
+
+.hero-subtitle {
+  font-size: 1.3rem;
+  color: #4A1F0F;
+  margin-bottom: 2.2rem;
+  text-align: center;
+  font-weight: 500;
+}
+
+.cta-btn {
+  background: linear-gradient(90deg, #FF6B35 0%, #FF944D 100%);
+  color: #4A1F0F;
+  font-size: 1.4rem;
+  font-weight: 700;
+  border: none;
+  border-radius: 2.5rem;
+  padding: 1rem 3.2rem;
+  box-shadow: 0 4px 24px #FF944D55, 0 1.5px 0 #FFA366 inset;
+  cursor: pointer;
+  transition: transform 0.18s cubic-bezier(.68,-0.55,.27,1.55), box-shadow 0.18s;
+  outline: none;
+  margin-bottom: 1.5rem;
+  letter-spacing: 0.5px;
+}
+.cta-btn:hover, .cta-btn:focus {
+  transform: scale(1.08, 0.92) rotate(-2deg);
+  box-shadow: 0 8px 32px #FF944D99, 0 2px 0 #FFA366 inset;
+  animation: wobble 0.4s;
+}
+@keyframes wobble {
+  0% { transform: scale(1,1) rotate(0deg); }
+  20% { transform: scale(1.12,0.88) rotate(-3deg); }
+  40% { transform: scale(0.96,1.08) rotate(2deg); }
+  60% { transform: scale(1.08,0.92) rotate(-2deg); }
+  80% { transform: scale(0.98,1.04) rotate(1deg); }
+  100% { transform: scale(1.08,0.92) rotate(-2deg); }
+}
+
+.why-matters {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2.5rem 1rem 3rem 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.why-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #4A1F0F;
+  margin-bottom: 2.2rem;
+  text-align: center;
+  letter-spacing: 0.5px;
+}
+
+.why-cards {
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+  justify-content: center;
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+.why-card {
+  background: linear-gradient(120deg, #FF944D 60%, #FFA366 100%);
+  border-radius: 2.2rem;
+  box-shadow: 0 4px 24px #FF944D55, 0 1.5px 0 #FF6B35 inset;
+  padding: 2.2rem 1.5rem 1.5rem 1.5rem;
+  min-width: 220px;
+  max-width: 260px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: transform 0.18s cubic-bezier(.68,-0.55,.27,1.55), box-shadow 0.18s;
+  cursor: pointer;
+  margin-bottom: 1.2rem;
+  color: #4A1F0F;
+  font-weight: 600;
+  font-size: 1.1rem;
+  text-align: center;
+  position: relative;
+}
+.why-card:hover, .why-card:focus {
+  transform: scale(1.07) translateY(-8px);
+  box-shadow: 0 8px 32px #FF944D99, 0 2px 0 #FF6B35 inset;
+  animation: bounce 0.5s;
+}
+@keyframes bounce {
+  0% { transform: scale(1) translateY(0); }
+  30% { transform: scale(1.12,0.88) translateY(-10px); }
+  50% { transform: scale(0.96,1.08) translateY(4px); }
+  70% { transform: scale(1.07) translateY(-8px); }
+  100% { transform: scale(1.07) translateY(-8px); }
+}
+
+.card-emoji {
+  font-size: 2.1rem;
+  margin-bottom: 0.7rem;
+  display: block;
+  filter: drop-shadow(0 2px 8px #FF944D88);
+}
+
+.card-text {
+  color: #4A1F0F;
+  font-size: 1.08rem;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+}
+
+@media (max-width: 800px) {
+  .why-cards {
+    flex-direction: column;
+    gap: 1.2rem;
+    align-items: center;
+  }
+  .why-card {
+    min-width: 180px;
+    max-width: 100%;
+  }
+}
