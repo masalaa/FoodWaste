@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Check Your Food's Freshness</title>
+    <link rel="stylesheet" href="checker.css">
+    <style>
+        body {
+            background-color: #FFF6EF;
+            margin: 0;
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+        .container {
+            max-width: 420px;
+            margin: 60px auto 0 auto; /* increased top margin */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .title {
+            text-align: center;
+            font-size: 2.2rem;
+            font-weight: bold;
+            margin-bottom: 44px; /* increased */
+            color: #181818;
+            letter-spacing: 0.5px;
+            white-space: nowrap; /* force single line */
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .spacer {
+            height: 32px; /* increased */
+            width: 100%;
+        }
+        .search-container {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            background: #FFF1E3;
+            border-radius: 14px;
+            border: none;
+            margin-bottom: 0;
+            padding: 0 10px 0 0;
+            box-shadow: none;
+        }
+        .search-bar {
+            border: none;
+            outline: none;
+            padding: 18px 10px 18px 18px; /* increased vertical padding */
+            border-radius: 14px;
+            font-size: 1.05rem;
+            width: 100%;
+            background: transparent;
+            color: #181818;
+        }
+        .search-bar::placeholder {
+            color: #b8a99a;
+            font-style: italic;
+            opacity: 1;
+        }
+        .icon {
+            width: 22px;
+            height: 22px;
+            margin-left: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        /* Month slider: keep arrows fixed, always show full month name, center everything */
+        .month-slider {
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            margin-bottom: 18px;
+            width: 260px;      /* Fixed width for the whole slider */
+            min-width: 260px;
+            max-width: 260px;
+            height: 38px;
+            position: relative;
+        }
+        .month-btn {
+    background: none;
+    border: none;
+    font-size: 1.3rem;
+    color: #FFA500;
+    cursor: pointer;
+    padding: 4px 12px;
+    border-radius: 50%;
+    transition: background 0.2s;
+    line-height: 1;
+    height: 38px;
+    display: flex;
+    align-items: flex-end;
+}
+        .month-btn:hover {
+            background: #ffe5b4;
+        }
+        /* Month label: no ellipsis, always centered, enough width for longest month */
+        .month-label {
+            font-size: 1.15rem;
+            font-weight: bold;
+            color: #a85b00;
+            width: 160px;           /* Enough for "September 2025" */
+            min-width: 160px;
+            max-width: 160px;
+            text-align: center;
+            margin: 0 8px;
+            line-height: 38px;
+            display: inline-block;
+            white-space: normal;    /* Show full text, no dots */
+            overflow: visible;      /* No truncation */
+            text-overflow: unset;   /* No truncation */
+        }
+        .calendar-section {
+            width: 100%;
+            margin-bottom: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+    .calendar {
+    display: grid;
+    grid-template-columns: repeat(7, 36px);
+    grid-gap: 10px;
+    background: none;
+    padding: 0;
+    border-radius: 0;
+    box-shadow: none;
+    justify-content: center;
+    min-height: 320px;
+    margin: 0 auto; /* Center horizontally */
+}
+        .calendar-day {
+            text-align: center;
+            font-weight: 500;
+            color: #a85b00;
+            font-size: 14px;
+            padding-bottom: 4px;
+            background: none;
+        }
+        .calendar-date {
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: background 0.2s, color 0.2s;
+            font-size: 14px;
+            color: #a85b00;
+            background: none;
+        }
+        .calendar-date.selected,
+        .calendar-date:hover {
+            background: #FFA500;
+            color: #fff;
+        }
+        .input-label {
+            font-size: 1.05rem;
+            color: #7d6c5c;
+            margin-bottom: 2px;
+            margin-top: 0;
+            font-weight: 500;
+        }
+        .storage-bar {
+            width: 100%;
+            background: #FFF1E3;
+            border-radius: 14px;
+            border: none;
+            padding: 16px 14px; /* increased vertical padding */
+            font-size: 1.05rem;
+            color: #a85b00;
+            margin-bottom: 0;
+        }
+        .opened-row {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            margin: 0;
+            justify-content: space-between;
+        }
+        .opened-label {
+            font-size: 1.05rem;
+            font-weight: 500;
+            color: #a85b00;
+        }
+        /* Toggle Switch */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 38px;
+            height: 20px;
+        }
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 20px;
+        }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 2px;
+            bottom: 2px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        input:checked + .slider {
+            background-color: #FFA500;
+        }
+        input:checked + .slider:before {
+            transform: translateX(18px);
+        }
+        .fresh-btn {
+            margin-top: 0;
+            background: #FFA500;
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.08rem;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(255, 165, 0, 0.10);
+            transition: background 0.2s;
+            padding: 18px 0; /* increased vertical padding */
+            width: 100%;
+            letter-spacing: 0.5px;
+        }
+        .fresh-btn:hover {
+            background: #ff8800;
+        }
+        .dialogue-box {
+            margin-top: 32px; /* increased */
+            width: 100%;
+            background: #fff;
+            border-radius: 14px;
+            box-shadow: 0 2px 8px rgba(255,165,0,0.08);
+            padding: 22px 18px 18px 18px; /* increased */
+            color: #7d6c5c;
+            font-size: 1.08rem;
+            min-height: 56px;
+            border: 1px solid #ffe5b4;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="title">Check Your Food's Freshness</div>
+        <div class="spacer"></div>
+        <div class="search-container">
+            <input 
+                type="text" 
+                class="search-bar" 
+                placeholder="Food Name"
+                aria-label="Food name"
+            />
+            <span class="icon">
+                <!-- Food relevant icon: apple/fruit SVG -->
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                  <circle cx="10" cy="12" r="7" fill="#FFA500"/>
+                  <ellipse cx="10" cy="7" rx="3" ry="2" fill="#7d6c5c"/>
+                  <path d="M10 2 Q11 5 13 5" stroke="#7d6c5c" stroke-width="1.2" fill="none"/>
+                </svg>
+            </span>
+        </div>
+        <div class="spacer"></div>
+        <div class="calendar-section">
+            <div class="month-slider">
+                <button class="month-btn" id="prevMonth">&#8592;</button>
+                <span class="month-label" id="monthLabel">July 2025</span>
+                <button class="month-btn" id="nextMonth">&#8594;</button>
+            </div>
+            <div class="calendar" id="calendarGrid">
+                <!-- Calendar will be rendered by JS -->
+            </div>
+        </div>
+        <div class="spacer"></div>
+        <div class="input-label">Fridge / Freezer / Pantry</div>
+        <div class="spacer"></div>
+        <input class="storage-bar" placeholder="Storage" />
+        <div class="spacer"></div>
+        <div class="opened-row">
+            <span class="opened-label">Opened?</span>
+            <label class="switch">
+                <input type="checkbox" id="openedSwitch">
+                <span class="slider"></span>
+            </label>
+        </div>
+        <div class="spacer"></div>
+        <button class="fresh-btn">Is It Still Fresh?</button>
+        <div class="dialogue-box">
+            Enter your food details and select a date to check freshness tips!
+        </div>
+    </div>
+    <script>
+        // Calendar rendering logic
+        const monthLabel = document.getElementById('monthLabel');
+        const calendarGrid = document.getElementById('calendarGrid');
+        const prevMonthBtn = document.getElementById('prevMonth');
+        const nextMonthBtn = document.getElementById('nextMonth');
+
+        let today = new Date();
+        let currentMonth = today.getMonth();
+        let currentYear = today.getFullYear();
+        let selectedDate = null;
+
+        function renderCalendar(month, year) {
+            // Month names
+            const monthNames = [
+                "January", "February", "March", "April", "May", "June",
+                "July", "August", "September", "October", "November", "December"
+            ];
+            monthLabel.textContent = `${monthNames[month]} ${year}`;
+
+            // First day of the month
+            const firstDay = new Date(year, month, 1).getDay();
+            // Number of days in the month
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+            // Clear previous calendar
+            calendarGrid.innerHTML = '';
+
+            // Days of week
+            const daysOfWeek = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
+            daysOfWeek.forEach(day => {
+                const dayDiv = document.createElement('div');
+                dayDiv.className = 'calendar-day';
+                dayDiv.textContent = day;
+                calendarGrid.appendChild(dayDiv);
+            });
+
+            // Empty slots for days before the 1st
+            for (let i = 0; i < firstDay; i++) {
+                const emptyDiv = document.createElement('div');
+                calendarGrid.appendChild(emptyDiv);
+            }
+
+            // Dates
+            for (let date = 1; date <= daysInMonth; date++) {
+                const dateDiv = document.createElement('div');
+                dateDiv.className = 'calendar-date';
+                dateDiv.textContent = date;
+                if (
+                    selectedDate &&
+                    selectedDate.year === year &&
+                    selectedDate.month === month &&
+                    selectedDate.date === date
+                ) {
+                    dateDiv.classList.add('selected');
+                }
+                dateDiv.onclick = function() {
+                    selectedDate = { year, month, date };
+                    renderCalendar(month, year);
+                };
+                calendarGrid.appendChild(dateDiv);
+            }
+        }
+
+        prevMonthBtn.onclick = function() {
+            currentMonth--;
+            if (currentMonth < 0) {
+                currentMonth = 11;
+                currentYear--;
+            }
+            selectedDate = null;
+            renderCalendar(currentMonth, currentYear);
+        };
+
+        nextMonthBtn.onclick = function() {
+            currentMonth++;
+            if (currentMonth > 11) {
+                currentMonth = 0;
+                currentYear++;
+            }
+            selectedDate = null;
+            renderCalendar(currentMonth, currentYear);
+        };
+
+        // Initial render
+        renderCalendar(currentMonth, currentYear);
+    </script>
+</body>
+</html>
