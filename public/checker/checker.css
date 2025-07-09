@@ -85,11 +85,15 @@ body {
   background: none;
   border: none;
   font-size: 1.3rem;
-  color: #FFA500;
+  color: #FF944D; /* changed to #FF944D */
   cursor: pointer;
   padding: 4px 12px;
   border-radius: 50%;
   transition: background 0.2s;
+  line-height: 1;
+  height: 38px;
+  display: flex;
+  align-items: flex-end;
 }
 
 .month-btn:hover {
@@ -162,8 +166,10 @@ body {
 
 .calendar-date.selected,
 .calendar-date:hover {
-  background: #FFA500;
-  color: #fff;
+  background: #FF944D !important;
+  color: #fff !important;
+  animation: bounce 0.3s cubic-bezier(.34,1.56,.64,1); /* Add bounce effect */
+  transform: none;
 }
 
 .input-label {
@@ -225,8 +231,28 @@ body {
   cursor: pointer;
   top: 0; left: 0; right: 0; bottom: 0;
   background-color: #ccc;
-  transition: .4s;
+  transition: background 0.4s, box-shadow 0.2s, transform 0.18s cubic-bezier(.34,1.56,.64,1);
   border-radius: 20px;
+}
+
+.switch input:focus + .slider,
+.switch input:hover + .slider {
+  box-shadow: 0 0 8px #FF944D55;
+  animation: bounce 0.3s cubic-bezier(.34,1.56,.64,1);
+  transform: none;
+}
+
+.switch input:active + .slider {
+  animation: none;
+  transform: scale(0.94);
+}
+
+@keyframes bounce {
+  0% { transform: scale(1);}
+  30% { transform: scale(1.10, 0.90);}
+  50% { transform: scale(0.95, 1.05);}
+  70% { transform: scale(1.04, 0.98);}
+  100% { transform: scale(1);}
 }
 
 .slider:before {
@@ -237,36 +263,62 @@ body {
   left: 2px;
   bottom: 2px;
   background-color: white;
-  transition: .4s;
+  transition: .4s, transform 0.18s cubic-bezier(.34,1.56,.64,1);
   border-radius: 50%;
 }
 
 input:checked + .slider {
-  background-color: #FFA500;
+  background-color: #FF944D !important;
 }
 
 input:checked + .slider:before {
-  transform: translateX(18px);
+  transform: translateX(18px) scale(1.12);
+}
+
+.switch input:active + .slider:before {
+  transform: scale(0.92);
 }
 
 .fresh-btn {
   margin-top: 0;
-  background: #FFA500;
+  background: #FF944D !important;
   color: #fff;
   border: none;
   border-radius: 12px;
   font-size: 1.08rem;
   font-weight: bold;
   cursor: pointer;
-  box-shadow: 0 2px 8px rgba(255, 165, 0, 0.10);
-  transition: background 0.2s;
+  box-shadow: 0 2px 8px rgba(255, 148, 77, 0.10);
+  transition: background 0.2s, transform 0.18s cubic-bezier(.34,1.56,.64,1), box-shadow 0.2s;
   padding: 18px 0;
   width: 100%;
   letter-spacing: 0.5px;
 }
 
 .fresh-btn:hover {
-  background: #ff8800;
+  background: #e6732a !important;
+  animation: bounce 0.3s cubic-bezier(.34,1.56,.64,1);
+  transform: none;
+  box-shadow: 0 4px 16px rgba(255, 148, 77, 0.18);
+}
+
+.fresh-btn:focus {
+  outline: none;
+}
+
+.fresh-btn:active {
+  animation: none;
+  transform: scale(0.94);
+  box-shadow: 0 1px 4px rgba(255, 148, 77, 0.10);
+}
+
+/* Use the same bounce keyframes as the slider for a subtle jelly effect */
+@keyframes bounce {
+  0% { transform: scale(1);}
+  30% { transform: scale(1.10, 0.90);}
+  50% { transform: scale(0.95, 1.05);}
+  70% { transform: scale(1.04, 0.98);}
+  100% { transform: scale(1);}
 }
 
 .dialogue-box {
