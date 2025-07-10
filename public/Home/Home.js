@@ -1,3 +1,4 @@
+// === THREE.JS BEE ANIMATION ===
 import * as THREE from 'https://cdn.skypack.dev/three@0.129.0/build/three.module.js';
 import { GLTFLoader } from 'https://cdn.skypack.dev/three@0.129.0/examples/jsm/loaders/GLTFLoader.js';
 
@@ -11,33 +12,34 @@ const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerH
 camera.position.set(0, 2, 10);
 camera.lookAt(0, 2, 0);
 
-// Lights
 scene.add(new THREE.AmbientLight(0xffffff, 1.5));
 
 // Constants
-const BEE_Y = 1.;
+const BEE_Y = 1;
 const BEE_Z = 0;
 const LEFT_X = -6;
 const RIGHT_X = 6;
 const CENTER_X = 0;
-const CENTER_STOP_DURATION = 2; // seconds
+const SPEED = 2;
+const SLOW_ZONE_RADIUS = 1.5;
+const CENTER_SLOW_FACTOR = 0.4;
+const TURN_SPEED = 0.08;
+const ROTATION_THRESHOLD = 0.05;
 
 let bee, mixer, clock = new THREE.Clock();
-let direction = 1; // 1: right, -1: left
-let isPausing = false;
-let pauseStartTime = null;
+let direction = 1;
+let beeRotationTarget = Math.PI / 2;
+let isTurning = false;
+let hasSlowedInCenter = false;
 
 const loader = new GLTFLoader();
 loader.load('./Assets/bee.glb', (gltf) => {
   bee = gltf.scene;
-
-  // ✅ Scale up bee significantly
   bee.scale.set(0.7, 0.7, 0.7);
-
   bee.position.set(LEFT_X, BEE_Y, BEE_Z);
+  bee.rotation.y = beeRotationTarget;
   scene.add(bee);
 
-  // Optional animations
   mixer = new THREE.AnimationMixer(bee);
   gltf.animations.forEach((clip) => mixer.clipAction(clip).play());
 
@@ -46,56 +48,63 @@ loader.load('./Assets/bee.glb', (gltf) => {
 
 function animate() {
   requestAnimationFrame(animate);
-
   const delta = clock.getDelta();
   if (mixer) mixer.update(delta);
+  if (!bee) return;
 
-  if (bee) {
-    // Pause at center
-    if (!isPausing && Math.abs(bee.position.x - CENTER_X) < 0.1) {
-      isPausing = true;
-      pauseStartTime = performance.now();
-      bee.lookAt(camera.position); // ✅ Face camera
-      return;
+  if (isTurning) {
+    bee.rotation.y += (beeRotationTarget - bee.rotation.y) * TURN_SPEED;
+    if (Math.abs(bee.rotation.y - beeRotationTarget) < ROTATION_THRESHOLD) {
+      bee.rotation.y = beeRotationTarget;
+      isTurning = false;
     }
-
-    if (isPausing) {
-      const elapsed = (performance.now() - pauseStartTime) / 1000;
-      if (elapsed >= CENTER_STOP_DURATION) {
-        isPausing = false;
-        setBeeDirectionRotation();
-      } else {
-        renderer.render(scene, camera);
-        return;
-      }
-    }
-
-    // Move
-    bee.position.x += direction * delta * 2;
-
-    // Flip direction
-    if (bee.position.x >= RIGHT_X) direction = -1;
-    if (bee.position.x <= LEFT_X) direction = 1;
-
-    // Set bee rotation to face moving direction
-    setBeeDirectionRotation();
-
-    // Lock y/z
-    bee.position.y = BEE_Y;
-    bee.position.z = BEE_Z;
+    renderer.render(scene, camera);
+    return;
   }
+
+  const distanceFromCenter = Math.abs(bee.position.x - CENTER_X);
+  let speedFactor = 1;
+  if (distanceFromCenter < SLOW_ZONE_RADIUS) {
+    speedFactor = CENTER_SLOW_FACTOR + (distanceFromCenter / SLOW_ZONE_RADIUS) * (1 - CENTER_SLOW_FACTOR);
+
+    if (!hasSlowedInCenter && speedFactor <= 0.45) {
+      hasSlowedInCenter = true;
+      triggerHoneyButtonEffect();
+    }
+  }
+
+  bee.position.x += direction * delta * SPEED * speedFactor;
+
+  if (bee.position.x >= RIGHT_X) {
+    bee.position.x = RIGHT_X;
+    direction = -1;
+    beeRotationTarget = -Math.PI / 2;
+    isTurning = true;
+  } else if (bee.position.x <= LEFT_X) {
+    bee.position.x = LEFT_X;
+    direction = 1;
+    beeRotationTarget = Math.PI / 2;
+    isTurning = true;
+  }
+
+  bee.position.y = BEE_Y;
+  bee.position.z = BEE_Z;
+  bee.rotation.x = 0;
+  bee.rotation.z = 0;
 
   renderer.render(scene, camera);
 }
 
-function setBeeDirectionRotation() {
-  // ✅ Bee should face forward while flying
-  bee.rotation.y = direction > 0 ? Math.PI / 2 : -Math.PI / 2;
-}
-
-// Resize
+// Responsive canvas
 window.addEventListener('resize', () => {
   renderer.setSize(window.innerWidth, window.innerHeight);
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
 });
+
+// === BUTTON HONEY EFFECT ===
+function triggerHoneyButtonEffect() {
+  const btn = document.getElementById('startChecking');
+  if (!btn) return;
+  btn.classList.add('honey-animate');
+}
