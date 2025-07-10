@@ -185,3 +185,70 @@ body, html {
     max-width: 100%;
   }
 }
+
+/* Base style */
+#startChecking {
+  position: relative;
+  padding: 1rem 2rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  background: linear-gradient(120deg, #FF944D 60%, #FFA366 100%); /* same as why cards */
+  color: #4A1F0F;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  z-index: 1;
+}
+
+/* Shine effect */
+#startChecking.honey-animate::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -75%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(120deg, transparent, #ffe7c2, transparent); /* subtle shine */
+  transform: skewX(-25deg);
+  animation: shine 3s ease-out 1;
+  z-index: 2;
+}
+
+/* Honey drip effect with original color tone */
+#startChecking.honey-animate::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at 50% 0%, #ffcf8a, transparent 70%);
+  animation: honey-drip 1.2s ease-in-out 1;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Keyframes (same) */
+@keyframes shine {
+  0% { left: -75%; opacity: 0; }
+  50% { opacity: 1; }
+  100% { left: 125%; opacity: 0; }
+}
+
+@keyframes honey-drip {
+  0% {
+    transform: translateY(-100%) scaleY(0.5);
+    opacity: 0.6;
+  }
+  50% {
+    transform: translateY(0) scaleY(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100%) scaleY(0.3);
+    opacity: 0;
+  }
+}
+  
