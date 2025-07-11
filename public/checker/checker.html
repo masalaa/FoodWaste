@@ -231,7 +231,7 @@
             font-size: 1.08rem;
             font-weight: bold;
             cursor: pointer;
-            box-shadow: 0 2px 8px rgba(255, 165, 0, 0.10);
+            box-shadow: 0 2px 8px rgba(255,165,0,0.10);
             transition: background 0.2s;
             padding: 18px 0; /* increased vertical padding */
             width: 100%;
@@ -252,11 +252,69 @@
             min-height: 56px;
             border: 1px solid #ffe5b4;
         }
+.food-type-tab {
+    display: flex;
+    justify-content: center;
+    gap: 18px;
+    margin: 18px 0 0 0;
+    width: 100%;
+    animation: bounce 0.3s cubic-bezier(.34,1.56,.64,1);
+}
+.food-type-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: #FFF1E3;
+    border-radius: 12px;
+    border: 2px solid #ffe5b4;
+    padding: 10px 14px 6px 14px;
+    cursor: pointer;
+    transition: background 0.2s, border 0.2s, transform 0.18s cubic-bezier(.34,1.56,.64,1);
+    font-size: 0.98rem;
+    color: #a85b00;
+    min-width: 64px;
+    box-shadow: 0 2px 8px rgba(255, 165, 0, 0.06);
+}
+.food-type-box.selected {
+    border: 2.5px solid #FF944D;
+    background: #FFE9CC;
+    color: #4A1F0F;
+    transform: scale(1.08);
+}
+.food-type-box:hover {
+    background: #FF944D22;
+    border: 2.5px solid #FF944D;
+    animation: squeezeJuice 0.35s cubic-bezier(.34,1.56,.64,1);
+}
+@keyframes squeezeJuice {
+    0% { transform: scale(1);}
+    40% { transform: scale(1.12, 0.88);}
+    60% { transform: scale(0.95, 1.10);}
+    100% { transform: scale(1.08);}
+}
+.icon#foodTypeIcon {
+    transition: transform 0.18s cubic-bezier(.34,1.56,.64,1);
+    margin-left: 4px;
+    border-radius: 50%;
+    box-shadow: none;
+    outline: none;
+}
+.icon#foodTypeIcon.jelly {
+    animation: bounce 0.3s cubic-bezier(.34,1.56,.64,1);
+}
+.icon#foodTypeIcon.squeezed svg circle {
+    filter: drop-shadow(0 4px 8px #FF944D88);
+    transform: scaleY(0.8) scaleX(1.1);
+    transition: transform 0.18s cubic-bezier(.34,1.56,.64,1);
+}
+.icon#foodTypeIcon svg circle {
+    transition: transform 0.18s cubic-bezier(.34,1.56,.64,1);
+}
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="title">Check Your Food's Freshness</div>
+        <div class="title" style="color: #7d6c5c;">Check Your Food's Freshness</div>
         <div class="spacer"></div>
         <div class="search-container">
             <input 
@@ -265,30 +323,76 @@
                 placeholder="Food Name"
                 aria-label="Food name"
             />
-            <span class="icon">
-                <!-- Food relevant icon: apple/fruit SVG -->
-                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                  <circle cx="10" cy="12" r="7" fill="#FFA500"/>
-                  <ellipse cx="10" cy="7" rx="3" ry="2" fill="#7d6c5c"/>
-                  <path d="M10 2 Q11 5 13 5" stroke="#7d6c5c" stroke-width="1.2" fill="none"/>
+            <span class="icon" id="foodTypeIcon" tabindex="0">
+                <!-- Improved Orange SVG -->
+                <svg id="fruitIconSvg" width="28" height="28" viewBox="0 0 28 28" fill="none">
+                    <ellipse class="orange-main" cx="14" cy="16" rx="10" ry="9" fill="#FFA500" stroke="#E59400" stroke-width="2"/>
+                    <ellipse cx="14" cy="10" rx="4" ry="2.2" fill="#7d6c5c"/>
+                    <path d="M14 4 Q16 8 20 8" stroke="#7d6c5c" stroke-width="1.5" fill="none"/>
+                    <!-- Juice drop, hidden by default -->
+                    <ellipse class="juice-drop" cx="14" cy="26" rx="2" ry="3" fill="#FF944D" opacity="0"/>
                 </svg>
             </span>
         </div>
+        <div id="foodTypeTab" class="food-type-tab" style="display:none;">
+    <div class="food-type-box selected" data-type="fruits">
+        <!-- Apple SVG -->
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+            <ellipse cx="14" cy="17" rx="8" ry="7" fill="#FF3B3B" stroke="#B71C1C" stroke-width="2"/>
+            <ellipse cx="14" cy="13" rx="3" ry="1.5" fill="#fff" opacity="0.3"/>
+            <rect x="13" y="7" width="2" height="5" rx="1" fill="#7d6c5c"/>
+            <path d="M14 7 Q15 5 17 6" stroke="#229954" stroke-width="1.2" fill="none"/>
+        </svg>
+        <span>Fruits</span>
+    </div>
+    <div class="food-type-box" data-type="vegetables">
+        <!-- Tomato SVG -->
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+            <ellipse cx="14" cy="17" rx="8" ry="7" fill="#FF6347" stroke="#B22222" stroke-width="2"/>
+            <ellipse cx="14" cy="13" rx="3" ry="1.5" fill="#fff" opacity="0.2"/>
+            <path d="M14 9 Q13 7 11 8" stroke="#229954" stroke-width="1.2" fill="none"/>
+            <path d="M14 9 Q15 7 17 8" stroke="#229954" stroke-width="1.2" fill="none"/>
+            <rect x="13" y="7" width="2" height="3" rx="1" fill="#229954"/>
+        </svg>
+        <span>Vegetables</span>
+    </div>
+    <div class="food-type-box" data-type="others">
+        <!-- Basket SVG -->
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+            <ellipse cx="14" cy="20" rx="8" ry="4" fill="#FFE0B2" stroke="#B8860B" stroke-width="2"/>
+            <rect x="6" y="12" width="16" height="8" rx="4" fill="#FFB74D" stroke="#B8860B" stroke-width="2"/>
+            <path d="M10 12 Q14 6 18 12" stroke="#B8860B" stroke-width="1.5" fill="none"/>
+        </svg>
+        <span>Others</span>
+    </div>
+</div>
         <div class="spacer"></div>
+        <!-- Add the question above the calendar -->
+        <div class="input-label" style="margin-bottom: 10px; text-align: center;">
+            When was the item purchased?
+        </div>
         <div class="calendar-section">
             <div class="month-slider">
-                <button class="month-btn" id="prevMonth">&#8592;</button>
-                <span class="month-label" id="monthLabel">July 2025</span>
-                <button class="month-btn" id="nextMonth">&#8594;</button>
+                <button class="month-btn" id="prevMonth" style="margin-right: 8px;">
+                    &#8592;
+                </button>
+                <span class="month-label">
+                    <span id="monthSelector" class="month-selectable"></span>
+                    <span> </span>
+                    <span id="yearSelector" class="year-selectable"></span>
+                </span>
+                <button class="month-btn" id="nextMonth" style="margin-left: 8px;">
+                    &#8594;
+                </button>
             </div>
             <div class="calendar" id="calendarGrid">
                 <!-- Calendar will be rendered by JS -->
             </div>
         </div>
         <div class="spacer"></div>
-        <div class="input-label">Fridge / Freezer / Pantry</div>
+        <div class="input-label">Where is the food stored?</div>
         <div class="spacer"></div>
-        <input class="storage-bar" placeholder="Storage" />
+        <input class="storage-bar" placeholder="Fridge / Freezer / Pantry" />
         <div class="spacer"></div>
         <div class="opened-row">
             <span class="opened-label">Opened?</span>
@@ -303,6 +407,22 @@
             Enter your food details and select a date to check freshness tips!
         </div>
     </div>
+    <div id="foodNamePopup" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.18); z-index:1000; align-items:center; justify-content:center;">
+        <div style="background:#fff; border-radius:14px; padding:28px 24px; box-shadow:0 4px 24px rgba(0,0,0,0.10); color:#7d6c5c; font-size:1.12rem; max-width:320px; margin:auto; text-align:center;">
+            Please enter the food name before selecting a date.
+            <br><br>
+            <button id="closeFoodNamePopupBtn" style="margin-top:10px; background:#FF944D; color:#fff; border:none; border-radius:8px; padding:8px 22px; font-size:1rem; cursor:pointer;">OK</button>
+        </div>
+    </div>
+    <div id="futureDatePopup" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.18); z-index:1000; align-items:center; justify-content:center;">
+        <div style="background:#fff; border-radius:14px; padding:28px 24px; box-shadow:0 4px 24px rgba(0,0,0,0.10); color:#7d6c5c; font-size:1.12rem; max-width:320px; margin:auto; text-align:center;">
+            You cannot select a future date.
+            <br><br>
+            <button id="closeFutureDatePopupBtn" style="margin-top:10px; background:#FF944D; color:#fff; border:none; border-radius:8px; padding:8px 22px; font-size:1rem; cursor:pointer;">OK</button>
+        </div>
+    </div>
+    <div id="monthDropdown" class="dropdown" style="display:none; position:absolute; z-index:10;"></div>
+<div id="yearDropdown" class="dropdown" style="display:none; position:absolute; z-index:10;"></div>
     <script>
         // Calendar rendering logic
         const monthLabel = document.getElementById('monthLabel');
@@ -321,7 +441,9 @@
                 "January", "February", "March", "April", "May", "June",
                 "July", "August", "September", "October", "November", "December"
             ];
-            monthLabel.textContent = `${monthNames[month]} ${year}`;
+            // Update selectors
+            document.getElementById('monthSelector').textContent = monthNames[month];
+            document.getElementById('yearSelector').textContent = year;
 
             // First day of the month
             const firstDay = new Date(year, month, 1).getDay();
@@ -360,6 +482,25 @@
                     dateDiv.classList.add('selected');
                 }
                 dateDiv.onclick = function() {
+                    // Remove selection from all dates first
+                    document.querySelectorAll('.calendar-date.selected').forEach(el => el.classList.remove('selected'));
+
+                    // Check food name
+                    if (!foodNameInput.value.trim()) {
+                        showFoodNamePopup();
+                        selectedDate = null;
+                        renderCalendar(month, year);
+                        return;
+                    }
+                    // Check for future date
+                    const picked = new Date(year, month, date, 23, 59, 59, 999);
+                    const now = new Date();
+                    if (picked > now) {
+                        showFutureDatePopup();
+                        selectedDate = null;
+                        renderCalendar(month, year);
+                        return;
+                    }
                     selectedDate = { year, month, date };
                     renderCalendar(month, year);
                 };
@@ -367,28 +508,213 @@
             }
         }
 
-        prevMonthBtn.onclick = function() {
-            currentMonth--;
-            if (currentMonth < 0) {
-                currentMonth = 11;
-                currentYear--;
+        const minYear = today.getFullYear() - 5;
+const minMonth = 0; // January
+
+prevMonthBtn.onclick = function() {
+    // Only allow going back up to 5 years from current month
+    if (
+        currentYear > minYear ||
+        (currentYear === minYear && currentMonth > minMonth)
+    ) {
+        currentMonth--;
+        if (currentMonth < 0) {
+            currentMonth = 11;
+            currentYear--;
+        }
+        // Prevent going before minYear/minMonth
+        if (currentYear < minYear || (currentYear === minYear && currentMonth < minMonth)) {
+            currentYear = minYear;
+            currentMonth = minMonth;
+        }
+        selectedDate = null;
+        renderCalendar(currentMonth, currentYear);
+        updateMonthArrows();
+    }
+};
+
+nextMonthBtn.onclick = function() {
+    // Only allow up to the current month/year
+    if (
+        currentYear < today.getFullYear() ||
+        (currentYear === today.getFullYear() && currentMonth < today.getMonth())
+    ) {
+        currentMonth++;
+        if (currentMonth > 11) {
+            currentMonth = 0;
+            currentYear++;
+        }
+        // Prevent going after current month/year
+        if (currentYear > today.getFullYear() || (currentYear === today.getFullYear() && currentMonth > today.getMonth())) {
+            currentYear = today.getFullYear();
+            currentMonth = today.getMonth();
+        }
+        selectedDate = null;
+        renderCalendar(currentMonth, currentYear);
+        updateMonthArrows();
+    }
+};
+
+        function updateMonthArrows() {
+            // Hide right arrow if in current month
+            if (currentYear === today.getFullYear() && currentMonth === today.getMonth()) {
+                nextMonthBtn.style.display = "none";
+            } else {
+                nextMonthBtn.style.display = "";
             }
-            selectedDate = null;
-            renderCalendar(currentMonth, currentYear);
+            // Hide left arrow if at min year/month
+            if (currentYear === minYear && currentMonth === minMonth) {
+                prevMonthBtn.style.display = "none";
+            } else {
+                prevMonthBtn.style.display = "";
+            }
+        }
+
+        const foodNameInput = document.querySelector('.search-bar');
+        const foodNamePopup = document.getElementById('foodNamePopup');
+        const closeFoodNamePopupBtn = document.getElementById('closeFoodNamePopupBtn');
+        const futureDatePopup = document.getElementById('futureDatePopup');
+        const closeFutureDatePopupBtn = document.getElementById('closeFutureDatePopupBtn');
+
+        function showFoodNamePopup() {
+            foodNamePopup.style.display = 'flex';
+        }
+        function hideFoodNamePopup() {
+            foodNamePopup.style.display = 'none';
+        }
+        closeFoodNamePopupBtn.onclick = hideFoodNamePopup;
+        foodNamePopup.onclick = function(e) {
+            if (e.target === foodNamePopup) hideFoodNamePopup();
         };
 
-        nextMonthBtn.onclick = function() {
-            currentMonth++;
-            if (currentMonth > 11) {
-                currentMonth = 0;
-                currentYear++;
-            }
-            selectedDate = null;
-            renderCalendar(currentMonth, currentYear);
+        function showFutureDatePopup() {
+            futureDatePopup.style.display = 'flex';
+        }
+        function hideFutureDatePopup() {
+            futureDatePopup.style.display = 'none';
+        }
+        closeFutureDatePopupBtn.onclick = hideFutureDatePopup;
+        futureDatePopup.onclick = function(e) {
+            if (e.target === futureDatePopup) hideFutureDatePopup();
         };
 
         // Initial render
         renderCalendar(currentMonth, currentYear);
+updateMonthArrows();
+
+let foodTypeTabVisible = false;
+const foodTypeIcon = document.getElementById('foodTypeIcon');
+const foodTypeTab = document.getElementById('foodTypeTab');
+const foodTypeBoxes = document.querySelectorAll('.food-type-box');
+const fruitIconSvg = document.getElementById('fruitIconSvg');
+
+// Toggle tab and jelly effect
+foodTypeIcon.onclick = function() {
+    foodTypeTabVisible = !foodTypeTabVisible;
+    foodTypeTab.style.display = foodTypeTabVisible ? 'flex' : 'none';
+    foodTypeIcon.classList.add('jelly');
+    setTimeout(() => foodTypeIcon.classList.remove('jelly'), 300);
+    // If closing, remove selection highlight from all
+    if (!foodTypeTabVisible) {
+        foodTypeBoxes.forEach(box => box.classList.remove('selected'));
+        foodTypeBoxes[0].classList.add('selected');
+    }
+};
+
+// Squeeze juice effect on hover
+foodTypeIcon.onmouseenter = function() {
+    foodTypeIcon.classList.add('squeezed');
+};
+foodTypeIcon.onmouseleave = function() {
+    foodTypeIcon.classList.remove('squeezed');
+};
+
+// Food type box selection
+foodTypeBoxes.forEach(box => {
+    box.onclick = function() {
+        foodTypeBoxes.forEach(b => b.classList.remove('selected'));
+        box.classList.add('selected');
+        // Optionally, you can set a variable for selected type here
+        // selectedFoodType = box.dataset.type;
+    };
+});
+
+// Month dropdown logic
+const monthDropdown = document.getElementById('monthDropdown');
+const yearDropdown = document.getElementById('yearDropdown');
+const monthSelector = document.getElementById('monthSelector');
+const yearSelector = document.getElementById('yearSelector');
+
+monthSelector.onclick = function(e) {
+    // Position dropdown below the month label
+    const rect = monthSelector.getBoundingClientRect();
+    monthDropdown.style.left = rect.left + "px";
+    monthDropdown.style.top = (rect.bottom + window.scrollY) + "px";
+    monthDropdown.innerHTML = "";
+    const monthNames = [
+        "January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"
+    ];
+    for (let i = 0; i < 12; i++) {
+        // Only show months within allowed range
+        if (
+            (currentYear > minYear || i >= minMonth) &&
+            (currentYear < today.getFullYear() || i <= today.getMonth())
+        ) {
+            const opt = document.createElement('div');
+            opt.className = "dropdown-option";
+            opt.textContent = monthNames[i];
+            opt.onclick = function() {
+                currentMonth = i;
+                selectedDate = null;
+                renderCalendar(currentMonth, currentYear);
+                updateMonthArrows();
+                monthDropdown.style.display = "none";
+            };
+            monthDropdown.appendChild(opt);
+        }
+    }
+    monthDropdown.style.display = "block";
+    yearDropdown.style.display = "none";
+    e.stopPropagation();
+};
+
+yearSelector.onclick = function(e) {
+    // Position dropdown below the year label
+    const rect = yearSelector.getBoundingClientRect();
+    yearDropdown.style.left = rect.left + "px";
+    yearDropdown.style.top = (rect.bottom + window.scrollY) + "px";
+    yearDropdown.innerHTML = "";
+    for (let y = today.getFullYear(); y >= minYear; y--) {
+        const opt = document.createElement('div');
+        opt.className = "dropdown-option";
+        opt.textContent = y;
+        opt.onclick = function() {
+            currentYear = y;
+            // Clamp month if needed
+            if (currentYear === today.getFullYear() && currentMonth > today.getMonth()) {
+                currentMonth = today.getMonth();
+            }
+            if (currentYear === minYear && currentMonth < minMonth) {
+                currentMonth = minMonth;
+            }
+            selectedDate = null;
+            renderCalendar(currentMonth, currentYear);
+            updateMonthArrows();
+            yearDropdown.style.display = "none";
+        };
+        yearDropdown.appendChild(opt);
+    }
+    yearDropdown.style.display = "block";
+    monthDropdown.style.display = "none";
+    e.stopPropagation();
+};
+
+// Hide dropdowns when clicking elsewhere
+document.body.addEventListener('click', function() {
+    monthDropdown.style.display = "none";
+    yearDropdown.style.display = "none";
+});
     </script>
 </body>
 </html>
