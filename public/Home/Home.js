@@ -155,5 +155,11 @@ window.addEventListener('mousemove', (e) => {
 function triggerHoneyButtonEffect() {
   const btn = document.getElementById('startChecking');
   if (!btn) return;
+
   btn.classList.add('honey-animate');
+
+  // Reset to original after 2 seconds
+  setTimeout(() => {
+    btn.classList.remove('honey-animate');
+  }, 2000);
 }
