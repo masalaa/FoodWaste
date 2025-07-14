@@ -163,3 +163,11 @@ function triggerHoneyButtonEffect() {
     btn.classList.remove('honey-animate');
   }, 2000);
 }
+
+// Add redirect for Start Checking button
+const startBtn = document.getElementById('startChecking');
+if (startBtn) {
+  startBtn.addEventListener('click', () => {
+    window.location.href = '../Checker/checker.html';
+  });
+}
