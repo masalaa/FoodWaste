@@ -86,7 +86,6 @@ body {
 }
 
 .month-btn {
-  position: relative;
   background: none;
   border: none;
   font-size: 1.3rem;
@@ -102,7 +101,7 @@ body {
   justify-content: center;
   margin-left: 2px;
   margin-right: 2px;
-  visibility: visible;
+  visibility: visible; /* Always take up space, even if hidden */
 }
 
 .month-btn[style*="display: none"] {
@@ -123,14 +122,14 @@ body {
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  width: 34px;
-  height: 34px;
+  width: 38px;
+  height: 38px;
   border-radius: 50%;
-  background: #FF944D;
+  background: #a84300;
   opacity: 0;
   z-index: 0;
   transition: opacity 0.2s;
-  box-shadow: 0 0 12px 4px #FF944D;
+  box-shadow: 0 0 12px 4px #a84300;
 }
 
 .month-btn.glow .arrow-glow {
@@ -146,9 +145,9 @@ body {
   font-size: 1.15rem;
   font-weight: bold;
   color: #a85b00;
-  width: 160px;
-  min-width: 160px;
-  max-width: 160px;
+  width: 150px;
+  min-width: 150px;
+  max-width: 150px;
   text-align: center;
   margin: 0 8px;
   line-height: 38px;
@@ -184,7 +183,8 @@ body {
 .calendar {
   display: grid;
   grid-template-columns: repeat(7, 36px);
-  grid-gap: 10px;
+  grid-template-rows: repeat(6, 36px);
+  grid-gap: 6px;
   background: none;
   padding: 0;
   border-radius: 0;
@@ -203,7 +203,7 @@ body {
 
 .calendar-date {
   width: 30px;
-  height: 30px;
+  height: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
