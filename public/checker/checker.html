@@ -314,8 +314,8 @@
 </head>
 <body>
     <div class="container">
-        <div class="title" style="color: #7d6c5c;">Check Your Food's Freshness</div>
-        <div class="spacer"></div>
+        <div class="title" style="color: #7d6c5c; margin-bottom: 24px;">Check Your Food's Freshness</div>
+        <div class="spacer" style="height: 16px;"></div>
         <div class="search-container">
             <input 
                 type="text" 
@@ -342,39 +342,35 @@
             <ellipse cx="14" cy="13" rx="3" ry="1.5" fill="#fff" opacity="0.3"/>
             <rect x="13" y="7" width="2" height="5" rx="1" fill="#7d6c5c"/>
             <path d="M14 7 Q15 5 17 6" stroke="#229954" stroke-width="1.2" fill="none"/>
+            <ellipse cx="17" cy="10" rx="1.2" ry="0.7" fill="#229954"/>
         </svg>
         <span>Fruits</span>
     </div>
     <div class="food-type-box" data-type="vegetables">
-        <!-- Tomato SVG -->
+        <!-- Brinjal (Eggplant) SVG -->
         <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-            <ellipse cx="14" cy="17" rx="8" ry="7" fill="#FF6347" stroke="#B22222" stroke-width="2"/>
-            <ellipse cx="14" cy="13" rx="3" ry="1.5" fill="#fff" opacity="0.2"/>
-            <path d="M14 9 Q13 7 11 8" stroke="#229954" stroke-width="1.2" fill="none"/>
-            <path d="M14 9 Q15 7 17 8" stroke="#229954" stroke-width="1.2" fill="none"/>
-            <rect x="13" y="7" width="2" height="3" rx="1" fill="#229954"/>
+            <ellipse cx="14" cy="18" rx="7" ry="6" fill="#8E44AD" stroke="#5E3370" stroke-width="2"/>
+            <ellipse cx="14" cy="13" rx="3" ry="2" fill="#BB8FCE"/>
+            <rect x="13" y="7" width="2" height="5" rx="1" fill="#229954"/>
+            <ellipse cx="14" cy="7" rx="2" ry="1" fill="#229954"/>
         </svg>
         <span>Vegetables</span>
     </div>
     <div class="food-type-box" data-type="others">
-        <!-- Basket SVG -->
-        <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-            <ellipse cx="14" cy="20" rx="8" ry="4" fill="#FFE0B2" stroke="#B8860B" stroke-width="2"/>
-            <rect x="6" y="12" width="16" height="8" rx="4" fill="#FFB74D" stroke="#B8860B" stroke-width="2"/>
-            <path d="M10 12 Q14 6 18 12" stroke="#B8860B" stroke-width="1.5" fill="none"/>
-        </svg>
+        <span style="font-size: 28px; line-height: 28px; color: #B8860B; font-weight: normal; display: flex; align-items: center; justify-content: center; width: 28px; height: 28px;">🛒</span>
         <span>Others</span>
     </div>
 </div>
         <div class="spacer"></div>
         <!-- Add the question above the calendar -->
-        <div class="input-label" style="margin-bottom: 10px; text-align: center;">
+        <div class="input-label" style="margin-bottom: 24px; text-align: center; margin-top: 24px;">
             When was the item purchased?
         </div>
         <div class="calendar-section">
             <div class="month-slider">
                 <button class="month-btn" id="prevMonth" style="margin-right: 8px;">
-                    &#8592;
+                    <span class="arrow-glow"></span>
+                    <span>&#8592;</span>
                 </button>
                 <span class="month-label">
                     <span id="monthSelector" class="month-selectable"></span>
@@ -382,7 +378,8 @@
                     <span id="yearSelector" class="year-selectable"></span>
                 </span>
                 <button class="month-btn" id="nextMonth" style="margin-left: 8px;">
-                    &#8594;
+                    <span class="arrow-glow"></span>
+                    <span>&#8594;</span>
                 </button>
             </div>
             <div class="calendar" id="calendarGrid">
@@ -403,9 +400,7 @@
         </div>
         <div class="spacer"></div>
         <button class="fresh-btn">Is it still fresh?</button>
-        <div class="dialogue-box">
-            Enter your food details and select a date to check freshness tips!
-        </div>
+        <div style="height: 48px;"></div>
     </div>
     <div id="foodNamePopup" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.18); z-index:1000; align-items:center; justify-content:center;">
         <div style="background:#fff; border-radius:14px; padding:28px 24px; box-shadow:0 4px 24px rgba(0,0,0,0.10); color:#7d6c5c; font-size:1.12rem; max-width:320px; margin:auto; text-align:center;">
@@ -715,6 +710,7 @@ document.body.addEventListener('click', function() {
     monthDropdown.style.display = "none";
     yearDropdown.style.display = "none";
 });
+
     </script>
 </body>
 </html>
