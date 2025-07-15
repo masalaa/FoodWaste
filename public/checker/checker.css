@@ -6,11 +6,12 @@ body {
   font-family: 'Segoe UI', Arial, sans-serif;
 }
 
-.calendar-container {
-  width: 300px;
-  margin: 40px auto;
-  font-family: Arial, sans-serif;
-  color: #a85b00;
+.container {
+    max-width: 420px;
+    margin: 60px auto 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .title {
