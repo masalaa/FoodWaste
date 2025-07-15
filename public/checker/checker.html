@@ -91,6 +91,7 @@
     height: 38px;
     display: flex;
     align-items: flex-end;
+    position: relative; /* Needed for absolute positioning of glow */
 }
         .month-btn:hover {
             background: #ffe5b4;
@@ -100,9 +101,9 @@
             font-size: 1.15rem;
             font-weight: bold;
             color: #a85b00;
-            width: 160px;           /* Enough for "September 2025" */
-            min-width: 160px;
-            max-width: 160px;
+            width: 200px; /* Increased from 160px */
+            min-width: 200px;
+            max-width: 200px;
             text-align: center;
             margin: 0 8px;
             line-height: 38px;
@@ -310,6 +311,40 @@
 .icon#foodTypeIcon svg circle {
     transition: transform 0.18s cubic-bezier(.34,1.56,.64,1);
 }
+.arrow-glow {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 28px;   /* Match arrow icon size */
+    height: 28px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #ffe5b4 0%, #ffe5b400 80%);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s;
+    z-index: 0;
+}
+.month-btn:active .arrow-glow,
+.month-btn:focus .arrow-glow,
+.month-btn:hover .arrow-glow {
+    opacity: 1;
+}
+.month-btn span:last-child {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    position: relative;
+    z-index: 1;
+    font-size: 1.3rem;
+}
+.month-label {
+    width: 200px; /* Increased from 160px */
+    min-width: 200px;
+    max-width: 200px;
+}
     </style>
 </head>
 <body>
@@ -366,7 +401,7 @@
         </div>
         <div class="calendar-section">
             <div class="month-slider">
-                <button class="month-btn" id="prevMonth" style="margin-right: 8px;">
+                <button class="month-btn" id="prevMonth" style="margin-right: 4px;">
                     <span class="arrow-glow"></span>
                     <span>&#8592;</span>
                 </button>
@@ -375,7 +410,7 @@
                     <span> </span>
                     <span id="yearSelector" class="year-selectable"></span>
                 </span>
-                <button class="month-btn" id="nextMonth" style="margin-left: 8px;">
+                <button class="month-btn" id="nextMonth" style="margin-left: 4px;">
                     <span class="arrow-glow"></span>
                     <span>&#8594;</span>
                 </button>
