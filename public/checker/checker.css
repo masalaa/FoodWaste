@@ -75,87 +75,97 @@ body {
 }
 
 .month-slider {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 18px;
-  width: 260px;
-  min-width: 260px;
-  max-width: 260px;
-  height: 38px;
-  position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 18px;
+    width: 260px;
+    min-width: 260px;
+    max-width: 260px;
+    height: 38px;
+    position: relative;
+    gap: 8px;
+    margin-left: 70px;
 }
 
 .month-btn {
-  background: none;
-  border: none;
-  font-size: 1.3rem;
-  color: #4A1F0F;
-  cursor: pointer;
-  border-radius: 50%;
-  transition: background 0.2s;
-  line-height: 1;
-  height: 38px;
-  width: 38px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-left: 2px;
-  margin-right: 2px;
-  visibility: visible; /* Always take up space, even if hidden */
+    background: none;
+    border: none;
+    font-size: 1.3rem;
+    color: #4A1F0F;
+    cursor: pointer;
+    border-radius: 50%;
+    transition: background 0.2s;
+    line-height: 1;
+    height: 38px;
+    width: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    /* Remove margin-left/right, use gap instead */
+    visibility: visible;
 }
 
 .month-btn[style*="display: none"] {
-  visibility: hidden;
-  display: inline-flex !important; /* Keep space, hide visually */
+    visibility: hidden;
+    display: inline-flex !important;
 }
 
-.month-btn:first-child {
-  margin-right: 10px;
-}
-
+/* Remove margin from first/last child, use gap */
+.month-btn:first-child,
 .month-btn:last-child {
-  margin-left: 10px;
+    margin: 0;
 }
 
 .arrow-glow {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  width: 38px;
-  height: 38px;
-  border-radius: 50%;
-  background: #a84300;
-  opacity: 0;
-  z-index: 0;
-  transition: opacity 0.2s;
-  box-shadow: 0 0 12px 4px #a84300;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #ffe5b4 0%, #ffe5b400 80%);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s;
+    z-index: 0;
+}
+.month-btn.glow .arrow-glow,
+.month-btn:active .arrow-glow,
+.month-btn:focus .arrow-glow,
+.month-btn:hover .arrow-glow {
+    opacity: 1;
 }
 
-.month-btn.glow .arrow-glow {
-  opacity: 0.6;
-}
-
-.month-btn span {
-  position: relative;
-  z-index: 1;
+.month-btn span:last-child {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    position: relative;
+    z-index: 1;
+    font-size: 1.3rem;
 }
 
 .month-label {
-  font-size: 1.15rem;
-  font-weight: bold;
-  color: #a85b00;
-  width: 150px;
-  min-width: 150px;
-  max-width: 150px;
-  text-align: center;
-  margin: 0 8px;
-  line-height: 38px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 4px;
+    font-size: 1.15rem;
+    font-weight: bold;
+    color: #a85b00;
+    width: 200px;
+    min-width: 200px;
+    max-width: 200px;
+    text-align: center;
+    margin: 0 8px;
+    line-height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    white-space: normal;
+    overflow: visible;
+    text-overflow: unset;
 }
 
 .calendar-grid {

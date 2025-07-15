@@ -114,6 +114,19 @@ function updateMonthArrows() {
     }
 }
 
+function triggerGlow(btn) {
+    btn.classList.add('glow');
+    setTimeout(() => btn.classList.remove('glow'), 250);
+}
+
+// Remove glow on mouseleave to prevent stuck state
+prevMonthBtn.addEventListener('mouseleave', function() {
+    prevMonthBtn.classList.remove('glow');
+});
+nextMonthBtn.addEventListener('mouseleave', function() {
+    nextMonthBtn.classList.remove('glow');
+});
+
 prevMonthBtn.onclick = function() {
     if (
         currentYear > minYear ||
@@ -131,6 +144,7 @@ prevMonthBtn.onclick = function() {
         selectedDate = null;
         renderCalendar(currentMonth, currentYear);
         updateMonthArrows();
+        triggerGlow(prevMonthBtn);
     }
 };
 
@@ -151,6 +165,7 @@ nextMonthBtn.onclick = function() {
         selectedDate = null;
         renderCalendar(currentMonth, currentYear);
         updateMonthArrows();
+        triggerGlow(nextMonthBtn);
     }
 };
 
