@@ -17,7 +17,7 @@ body {
   text-align: center;
   font-size: 2.2rem;
   font-weight: bold;
-  margin-bottom: 44px;
+  margin-bottom: 24px;
   color: #181818;
   letter-spacing: 0.5px;
   white-space: nowrap;
@@ -26,7 +26,7 @@ body {
 }
 
 .spacer {
-  height: 32px;
+  height: 16px;
   width: 100%;
 }
 
@@ -55,7 +55,7 @@ body {
 
 .search-bar::placeholder {
   color: #b8a99a;
-  font-style: italic;
+  font-style: normal !important;
   opacity: 1;
 }
 
@@ -122,14 +122,14 @@ body {
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  width: 36px;
-  height: 36px;
+  width: 38px;
+  height: 38px;
   border-radius: 50%;
-  background: #FFA500;
+  background: #a84300;
   opacity: 0;
   z-index: 0;
   transition: opacity 0.2s;
-  box-shadow: 0 0 12px 4px #FFA500;
+  box-shadow: 0 0 12px 4px #a84300;
 }
 
 .month-btn.glow .arrow-glow {
@@ -145,9 +145,9 @@ body {
   font-size: 1.15rem;
   font-weight: bold;
   color: #a85b00;
-  width: 160px;
-  min-width: 160px;
-  max-width: 160px;
+  width: 150px;
+  min-width: 150px;
+  max-width: 150px;
   text-align: center;
   margin: 0 8px;
   line-height: 38px;
@@ -183,7 +183,8 @@ body {
 .calendar {
   display: grid;
   grid-template-columns: repeat(7, 36px);
-  grid-gap: 10px;
+  grid-template-rows: repeat(6, 36px);
+  grid-gap: 6px;
   background: none;
   padding: 0;
   border-radius: 0;
@@ -202,7 +203,7 @@ body {
 
 .calendar-date {
   width: 30px;
-  height: 30px;
+  height: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -372,16 +373,7 @@ input:checked + .slider:before {
 }
 
 .dialogue-box {
-  margin-top: 32px;
-  width: 100%;
-  background: #fff;
-  border-radius: 14px;
-  box-shadow: 0 2px 8px rgba(255,165,0,0.08);
-  padding: 22px 18px 18px 18px;
-  color: #7d6c5c;
-  font-size: 1.08rem;
-  min-height: 56px;
-  border: 1px solid #ffe5b4;
+  display: none !important;
 }
 
 .dropdown {
@@ -453,4 +445,16 @@ input:checked + .slider:before {
   40% { transform: scale(1.12, 0.88);}
   60% { transform: scale(0.95, 1.10);}
   100% { transform: scale(1.08);}
+}
+.food-type-tab {
+  position: static;
+  top: auto;
+  left: auto;
+  transform: none;
+  z-index: auto;
+  background: none;
+}
+
+.icon#foodTypeIcon svg circle {
+  transition: transform 0.18s cubic-bezier(.34,1.56,.64,1);
 }
