@@ -1,0 +1,133 @@
+body {
+  background: #ffe9cc;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  color: #222;
+}
+.container {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 36px 12px 24px 12px;
+}
+h1 {
+  text-align: center;
+  font-size: 2.1rem;
+  margin-bottom: 32px;
+  font-weight: 700;
+}
+.result-block {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  border-radius: 18px;
+  margin-bottom: 32px;
+  box-shadow: 0 2px 12px rgba(255,165,0,0.06);
+  padding: 0 0 0 0;
+  min-height: 170px;
+}
+.result-emoji {
+  flex: 0 0 180px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 170px;
+  width: 180px;
+  font-size: 6.5rem;
+  background: #f8f6f3;
+  border-radius: 18px 0 0 18px;
+  margin-right: 0;
+}
+.result-content {
+  flex: 1;
+  padding: 24px 32px 24px 28px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.result-title {
+  font-size: 1.18rem;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+.result-desc {
+  font-size: 1rem;
+  color: #444;
+  margin-bottom: 0;
+}
+.result-actions {
+  display: flex;
+  align-items: center;
+  margin-top: 14px;
+}
+.action-btn {
+  background: #FF944D;
+  color: #fff;
+  border: none;
+  border-radius: 22px;
+  padding: 8px 22px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.18s;
+  margin-left: 0;
+  margin-right: 0;
+  box-shadow: 0 2px 8px rgba(255,148,77,0.10);
+}
+.action-btn:hover {
+  background: #e6732a;
+}
+.check-another {
+  display: block;
+  margin: 32px auto 0 auto;
+  background: #FF944D;
+  color: #fff;
+  border: none;
+  border-radius: 22px;
+  padding: 12px 32px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.18s;
+  box-shadow: 0 2px 8px rgba(255,148,77,0.10);
+}
+.check-another:hover {
+  background: #e6732a;
+}
+@media (max-width: 600px) {
+  .result-block {
+    flex-direction: column;
+    align-items: stretch;
+    min-height: unset;
+  }
+  .result-emoji {
+    border-radius: 18px 18px 0 0;
+    width: 100%;
+    height: 120px;
+    font-size: 4.5rem;
+  }
+  .result-content {
+    padding: 18px 16px 18px 16px;
+  }
+}
+.action-btn,
+.check-another {
+  transition: transform 0.18s cubic-bezier(.34,1.56,.64,1);
+}
+.action-btn:hover,
+.check-another:hover {
+  animation: bounce 0.3s cubic-bezier(.34,1.56,.64,1);
+  transform: scale(1.08);
+}
+.action-btn:active,
+.check-another:active {
+  animation: bounce 0.3s cubic-bezier(.34,1.56,.64,1);
+  transform: scale(1.08);
+}
+@keyframes bounce {
+  0% { transform: scale(1);}
+  30% { transform: scale(1.10, 0.90);}
+  50% { transform: scale(0.95, 1.05);}
+  70% { transform: scale(1.04, 0.98);}
+  100% { transform: scale(1);}
+} 

@@ -59,7 +59,7 @@
         </div>
         <div class="calendar-section">
             <div class="month-slider">
-                <button class="month-btn" id="prevMonth" style="margin-right: 4px;">
+                <button class="month-btn" id="prevMonth">
                     <span class="arrow-glow"></span>
                     <span>&#8592;</span>
                 </button>
@@ -68,7 +68,7 @@
                     <span> </span>
                     <span id="yearSelector" class="year-selectable"></span>
                 </span>
-                <button class="month-btn" id="nextMonth" style="margin-left: 4px;">
+                <button class="month-btn" id="nextMonth">
                     <span class="arrow-glow"></span>
                     <span>&#8594;</span>
                 </button>
@@ -77,8 +77,7 @@
                 <!-- Calendar will be rendered by JS -->
             </div>
         </div>
-        <!-- After the calendar section, reduce the spacer height to 0 -->
-        <div class="spacer" style="height: 0;"></div>
+        <hr class="calendar-divider" />
         <div class="input-label">Where is the food stored?</div>
         <div class="spacer"></div>
         <input class="storage-bar" placeholder="Fridge / Freezer / Pantry" />

@@ -74,22 +74,21 @@ body, html {
 }
 
 .calendar-section {
-  width: 100%;
-  margin-bottom: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
+/* 1. Center month-slider and remove fixed width */
 .month-slider {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 18px;
-    width: 260px;
-    min-width: 260px;
-    max-width: 260px;
-    height: 38px;
-    position: relative;
-    gap: 8px;
-    margin-left: 70px;
+    width: auto;
+    min-width: unset;
+    max-width: unset;
+    padding: 0;
+    gap: 0px;
 }
 
 .month-btn {
@@ -109,6 +108,7 @@ body, html {
     position: relative;
     /* Remove margin-left/right, use gap instead */
     visibility: visible;
+    margin: 0 -15px;
 }
 
 .month-btn[style*="display: none"] {
@@ -122,36 +122,21 @@ body, html {
     margin: 0;
 }
 
-.arrow-glow {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    width: 38px;
-    height: 38px;
-    border-radius: 50%;
-    background: radial-gradient(circle, #ffe5b4 0%, #ffe5b400 80%);
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.2s;
-    z-index: 0;
-}
-.month-btn.glow .arrow-glow,
-.month-btn:active .arrow-glow,
-.month-btn:focus .arrow-glow,
-.month-btn:hover .arrow-glow {
-    opacity: 1;
-}
+/* 2. Only show solid background on hover/focus/active, and remove it otherwise */
+/* Redone glow logic for month arrows */
 
+/* 3. Remove any persistent background on the arrow when not hovered/focused/active */
 .month-btn span:last-child {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 28px;
-    height: 28px;
-    position: relative;
-    z-index: 1;
-    font-size: 1.3rem;
+    background: none !important;
+    color: #4A1F0F;
+    border-radius: 50%;
+    transition: background 0.2s, color 0.2s;
+}
+.month-btn:focus span:last-child,
+.month-btn:active span:last-child,
+.month-btn:hover span:last-child {
+    background: none !important;
+    color: #4A1F0F !important;
 }
 
 .month-label {
@@ -170,6 +155,7 @@ body, html {
     white-space: normal;
     overflow: visible;
     text-overflow: unset;
+    margin: 0 -15px;
 }
 
 .calendar-grid {
@@ -450,7 +436,7 @@ input:checked + .slider:before {
 }
 
 .food-type-box:hover {
-  background: #FF944D22;
+  background: #FFE9CC !important; /* remove transparent effect */
   border: 2.5px solid #FF944D;
   animation: squeezeJuice 0.35s cubic-bezier(.34,1.56,.64,1);
 }
@@ -462,14 +448,106 @@ input:checked + .slider:before {
   100% { transform: scale(1.08);}
 }
 .food-type-tab {
-  position: static;
-  top: auto;
-  left: auto;
-  transform: none;
-  z-index: auto;
-  background: none;
+    display: flex;
+    gap: 24px; /* increase spacing between buttons */
+    justify-content: center;
+}
+.food-type-box {
+    margin: 0;
+    background: #FFF1E3 !important;
+    box-shadow: 0 2px 8px rgba(255, 165, 0, 0.06);
+}
+
+.food-type-box:hover {
+    background: #FFE9CC !important; /* remove transparent effect */
+    border: 2.5px solid #FF944D;
+    animation: squeezeJuice 0.35s cubic-bezier(.34,1.56,.64,1);
 }
 
 .icon#foodTypeIcon svg circle {
   transition: transform 0.18s cubic-bezier(.34,1.56,.64,1);
+}
+
+/* Improved month-slider alignment and arrow glow behavior */
+.month-slider {
+    width: 252px;
+    min-width: 252px;
+    max-width: 252px;
+    height: 38px;
+    display: grid;
+    grid-template-columns: 38px 1fr 38px;
+    align-items: center;
+    justify-items: center;
+    margin-left: 0;
+    margin-right: auto;
+    margin-bottom: 18px;
+    position: relative;
+}
+
+.month-label {
+    text-align: center;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.month-btn {
+    flex-shrink: 0;
+    justify-self: center;
+}
+
+.month-btn span:last-child {
+    background: none !important;
+    color: #4A1F0F;
+    border-radius: 50%;
+    transition: background 0.2s, color 0.2s;
+}
+.month-btn:hover span:last-child {
+    background: #FF944D !important;
+    color: #fff !important;
+}
+
+.month-label {
+    margin: 0 -45px;
+}
+
+.month-slider {
+    margin-left: 10px;
+}
+
+.month-slider {
+    transform: translateX(10px);
+}
+
+.month-btn:focus, .month-btn:active {
+    outline: none;
+    box-shadow: none;
+}
+
+.arrow-glow {
+    width: 48px;
+    height: 48px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 90%;
+    background: rgba(255, 148, 77, 0.12);
+    box-shadow: 0 0 8px 2px rgba(255, 148, 77, 0.22);
+    opacity: 0;
+    pointer-events: none;
+    z-index: 0;
+    transition: opacity 0.18s;
+}
+.month-btn:hover .arrow-glow {
+    opacity: 1;
+}
+
+.calendar-divider {
+  border: none;
+  border-top: 1.5px solid #ffe5b4;
+  margin: 18px 0 18px 0;
+  width: 100%;
 }
