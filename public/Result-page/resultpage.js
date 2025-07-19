@@ -21,11 +21,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // --- Navigation Functions ---
 backToCheckerBtn.addEventListener('click', function() {
-    window.location.href = '/Checker/checker.html';
+    window.location.href = '/checker/checker.html';
 });
 
 checkMoreBtn.addEventListener('click', function() {
-    window.location.href = '/Checker/checker.html';
+    window.location.href = '/checker/checker.html';
 });
 
 clearBasketBtn.addEventListener('click', function() {
