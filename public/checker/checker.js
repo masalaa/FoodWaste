@@ -18,7 +18,7 @@ let selectedFoodType = 'all', validFoodSelected = false;
 let currentFreshnessResult = null;
 
 // --- Nutritionix API Configuration ---
-const NUTRITIONIX_APP_ID = 'ee23efb0', NUTRITIONIX_APP_KEY = 'bae6d2d56c1d0cccd180c07d68bf8936';
+// API credentials are now handled server-side in /api/search
 let selectedFood = null;
 
 // --- Food Storage Data ---
@@ -384,18 +384,20 @@ foodTypeBoxes.forEach(box => box.onclick = () => {
 // --- Enhanced Food Search Functions ---
 async function searchFoods(query) {
   try {
-    const response = await fetch('https://trackapi.nutritionix.com/v2/search/instant', {
+    const response = await fetch('/api/search', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
-        'x-app-id': NUTRITIONIX_APP_ID,
-        'x-app-key': NUTRITIONIX_APP_KEY
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify({
         query: query,
         detailed: true
       })
     });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
 
     const data = await response.json();
     displayAutocomplete(data.common.concat(data.branded));
@@ -450,17 +452,20 @@ async function showNutritionalPreview() {
   if (!selectedFood) return;
   
   try {
-    const response = await fetch('https://trackapi.nutritionix.com/v2/natural/nutrients', {
+    const response = await fetch('/api/search', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
-        'x-app-id': NUTRITIONIX_APP_ID,
-        'x-app-key': NUTRITIONIX_APP_KEY
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        query: `1 ${quantitySelect.value} ${selectedFood.food_name}`
+        query: `1 ${quantitySelect.value} ${selectedFood.food_name}`,
+        nutrients: true
       })
     });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
 
     const data = await response.json();
     if (data.foods && data.foods.length > 0) {
