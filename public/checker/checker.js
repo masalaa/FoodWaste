@@ -7,16 +7,55 @@ const closeFoodNamePopupBtn = qs('#closeFoodNamePopupBtn'), closeFutureDatePopup
 const monthDropdown = qs('#monthDropdown'), yearDropdown = qs('#yearDropdown');
 const monthSelector = qs('#monthSelector'), yearSelector = qs('#yearSelector');
 const foodTypeIcon = qs('#foodTypeIcon'), foodTypeTab = qs('#foodTypeTab'), foodTypeBoxes = qsa('.food-type-box');
+const storageInput = qs('.storage-bar'), openedSwitch = qs('#openedSwitch'), freshBtn = qs('#checkFreshnessBtn');
+const addToBasketBtn = qs('#addToBasketBtn'), backToHomeBtn = qs('#backToHomeBtn'), viewBasketBtn = qs('#viewBasketBtn');
 
 // --- Constants & State ---
 const today = new Date(), monthNames = [..."January February March April May June July August September October November December".split(" ")];
 let currentMonth = today.getMonth(), currentYear = today.getFullYear(), selectedDate = null;
 const minYear = today.getFullYear() - 5, minMonth = 0, validStorages = ['fridge', 'freezer', 'pantry'];
 let selectedFoodType = 'all', validFoodSelected = false;
+let currentFreshnessResult = null;
 
 // --- Nutritionix API Configuration ---
 const NUTRITIONIX_APP_ID = 'ee23efb0', NUTRITIONIX_APP_KEY = 'bae6d2d56c1d0cccd180c07d68bf8936';
 let selectedFood = null;
+
+// --- Food Storage Data ---
+const foodStorageData = {
+  // Fruits
+  'apple': { fridge: 30, freezer: 240, pantry: 7, opened: { fridge: 7, freezer: 240, pantry: 3 } },
+  'banana': { fridge: 7, freezer: 180, pantry: 5, opened: { fridge: 3, freezer: 180, pantry: 2 } },
+  'orange': { fridge: 21, freezer: 240, pantry: 7, opened: { fridge: 7, freezer: 240, pantry: 3 } },
+  'strawberry': { fridge: 7, freezer: 240, pantry: 2, opened: { fridge: 3, freezer: 240, pantry: 1 } },
+  'grape': { fridge: 14, freezer: 240, pantry: 5, opened: { fridge: 5, freezer: 240, pantry: 2 } },
+  'tomato': { fridge: 7, freezer: 180, pantry: 5, opened: { fridge: 3, freezer: 180, pantry: 2 } },
+  
+  // Vegetables
+  'carrot': { fridge: 30, freezer: 240, pantry: 7, opened: { fridge: 14, freezer: 240, pantry: 5 } },
+  'broccoli': { fridge: 7, freezer: 240, pantry: 3, opened: { fridge: 3, freezer: 240, pantry: 1 } },
+  'spinach': { fridge: 7, freezer: 240, pantry: 2, opened: { fridge: 3, freezer: 240, pantry: 1 } },
+  'lettuce': { fridge: 10, freezer: 240, pantry: 3, opened: { fridge: 5, freezer: 240, pantry: 1 } },
+  'onion': { fridge: 60, freezer: 240, pantry: 30, opened: { fridge: 30, freezer: 240, pantry: 14 } },
+  'potato': { fridge: 90, freezer: 240, pantry: 60, opened: { fridge: 30, freezer: 240, pantry: 14 } },
+  
+  // Dairy & Proteins
+  'milk': { fridge: 7, freezer: 90, pantry: 0, opened: { fridge: 5, freezer: 90, pantry: 0 } },
+  'cheese': { fridge: 30, freezer: 180, pantry: 0, opened: { fridge: 14, freezer: 180, pantry: 0 } },
+  'yogurt': { fridge: 14, freezer: 60, pantry: 0, opened: { fridge: 7, freezer: 60, pantry: 0 } },
+  'egg': { fridge: 30, freezer: 240, pantry: 0, opened: { fridge: 7, freezer: 240, pantry: 0 } },
+  'chicken': { fridge: 2, freezer: 240, pantry: 0, opened: { fridge: 1, freezer: 240, pantry: 0 } },
+  'beef': { fridge: 3, freezer: 240, pantry: 0, opened: { fridge: 1, freezer: 240, pantry: 0 } },
+  'fish': { fridge: 2, freezer: 180, pantry: 0, opened: { fridge: 1, freezer: 180, pantry: 0 } },
+  
+  // Grains & Others
+  'bread': { fridge: 7, freezer: 90, pantry: 5, opened: { fridge: 5, freezer: 90, pantry: 3 } },
+  'rice': { fridge: 180, freezer: 240, pantry: 365, opened: { fridge: 90, freezer: 240, pantry: 180 } },
+  'pasta': { fridge: 180, freezer: 240, pantry: 365, opened: { fridge: 90, freezer: 240, pantry: 180 } },
+  
+  // Default values for unknown foods
+  'default': { fridge: 7, freezer: 180, pantry: 3, opened: { fridge: 3, freezer: 180, pantry: 1 } }
+};
 
 // --- Enhanced Autocomplete Elements ---
 const autocompleteList = Object.assign(document.createElement('div'), {
@@ -39,6 +78,13 @@ const nutritionalPreview = Object.assign(document.createElement('div'), {
   id: 'nutritional-preview',
   className: 'nutritional-preview',
   style: 'margin-top: 16px; padding: 16px; background: #fff8f0; border: 1px solid #ffe5b4; border-radius: 8px; display: none;'
+});
+
+// Add freshness result container
+const freshnessResult = Object.assign(document.createElement('div'), {
+  id: 'freshness-result',
+  className: 'freshness-result',
+  style: 'margin-top: 16px; padding: 16px; border-radius: 8px; display: none;'
 });
 
 // Setup quantity options
@@ -67,6 +113,159 @@ quantityContainer.appendChild(nutritionalPreview);
 qs('.search-container').style.position = 'relative';
 qs('.search-container').appendChild(autocompleteList);
 qs('.container').insertBefore(quantityContainer, qs('.input-label'));
+qs('.container').insertBefore(freshnessResult, qs('.action-buttons'));
+
+// --- Navigation Functions ---
+backToHomeBtn.addEventListener('click', () => {
+  window.location.href = '../Home/Home.html';
+});
+
+viewBasketBtn.addEventListener('click', () => {
+  window.location.href = '../Result-page/resultpage.html';
+});
+
+// --- Storage Logic Functions ---
+function getStorageType(input) {
+  const storage = input.toLowerCase().trim();
+  if (storage.includes('fridge') || storage.includes('refrigerator')) return 'fridge';
+  if (storage.includes('freezer') || storage.includes('frozen')) return 'freezer';
+  if (storage.includes('pantry') || storage.includes('room') || storage.includes('counter')) return 'pantry';
+  return null;
+}
+
+function findFoodData(foodName) {
+  const normalizedName = foodName.toLowerCase();
+  
+  // Try exact match first
+  if (foodStorageData[normalizedName]) {
+    return foodStorageData[normalizedName];
+  }
+  
+  // Try partial matches
+  for (const [key, data] of Object.entries(foodStorageData)) {
+    if (normalizedName.includes(key) || key.includes(normalizedName)) {
+      return data;
+    }
+  }
+  
+  // Return default if no match found
+  return foodStorageData.default;
+}
+
+function calculateFreshness(purchaseDate, storageType, isOpened, foodName) {
+  if (!purchaseDate || !storageType) return null;
+  
+  const foodData = findFoodData(foodName);
+  const daysSincePurchase = Math.floor((today - purchaseDate) / (1000 * 60 * 60 * 24));
+  
+  const maxDays = isOpened ? foodData.opened[storageType] : foodData[storageType];
+  const remainingDays = maxDays - daysSincePurchase;
+  
+  return {
+    daysSincePurchase,
+    maxDays,
+    remainingDays,
+    isFresh: remainingDays > 0,
+    percentageUsed: Math.min(100, (daysSincePurchase / maxDays) * 100)
+  };
+}
+
+function displayFreshnessResult(result, foodName, storageType, isOpened) {
+  const { daysSincePurchase, maxDays, remainingDays, isFresh, percentageUsed } = result;
+  
+  let statusClass, statusText, statusColor;
+  
+  if (isFresh) {
+    if (remainingDays > maxDays * 0.5) {
+      statusClass = 'fresh';
+      statusText = 'Fresh';
+      statusColor = '#4CAF50';
+    } else {
+      statusClass = 'warning';
+      statusText = 'Use Soon';
+      statusColor = '#FF9800';
+    }
+  } else {
+    statusClass = 'expired';
+    statusText = 'Expired';
+    statusColor = '#F44336';
+  }
+  
+  const storageText = storageType.charAt(0).toUpperCase() + storageType.slice(1);
+  const openedText = isOpened ? ' (Opened)' : ' (Unopened)';
+  
+  freshnessResult.innerHTML = `
+    <div class="freshness-info">
+      <h3 style="margin: 0 0 12px 0; color: ${statusColor}; font-size: 1.3rem;">${statusText}</h3>
+      <div class="freshness-details">
+        <div class="detail-item">
+          <span class="label">Storage:</span>
+          <span class="value">${storageText}${openedText}</span>
+        </div>
+        <div class="detail-item">
+          <span class="label">Days Since Purchase:</span>
+          <span class="value">${daysSincePurchase} days</span>
+        </div>
+        <div class="detail-item">
+          <span class="label">Max Shelf Life:</span>
+          <span class="value">${maxDays} days</span>
+        </div>
+        <div class="detail-item">
+          <span class="label">Remaining Days:</span>
+          <span class="value" style="color: ${statusColor}; font-weight: bold;">
+            ${isFresh ? remainingDays : 0} days
+          </span>
+        </div>
+      </div>
+      <div class="progress-bar" style="margin-top: 12px;">
+        <div class="progress-fill" style="width: ${percentageUsed}%; background: ${statusColor};"></div>
+      </div>
+      <div class="recommendation" style="margin-top: 12px; padding: 8px; background: #f5f5f5; border-radius: 4px; font-size: 0.9rem;">
+        ${getRecommendation(result, foodName, storageType, isOpened)}
+      </div>
+    </div>
+  `;
+  
+  freshnessResult.style.display = 'block';
+  freshnessResult.style.background = isFresh ? '#f1f8e9' : '#ffebee';
+  freshnessResult.style.border = `1px solid ${statusColor}`;
+  
+  // Show add to basket button
+  addToBasketBtn.style.display = 'block';
+  
+  // Store current result for basket
+  currentFreshnessResult = {
+    foodName,
+    storageType,
+    isOpened,
+    purchaseDate: selectedDate,
+    ...result,
+    status: statusClass,
+    recommendation: getRecommendation(result, foodName, storageType, isOpened)
+  };
+}
+
+function getRecommendation(result, foodName, storageType, isOpened) {
+  const { isFresh, remainingDays, percentageUsed } = result;
+  
+  if (!isFresh) {
+    return `⚠️ This ${foodName} has expired. Please discard it safely.`;
+  }
+  
+  if (remainingDays <= 2) {
+    return `⚠️ Use this ${foodName} within ${remainingDays} days or freeze it to extend shelf life.`;
+  }
+  
+  if (percentageUsed > 75) {
+    return `⚠️ This ${foodName} is approaching its expiration date. Consider using it soon.`;
+  }
+  
+  if (storageType === 'pantry' && !isOpened) {
+    return `💡 Consider refrigerating this ${foodName} to extend its shelf life.`;
+  }
+  
+  return `✅ This ${foodName} is still fresh and safe to consume.`;
+}
 
 // --- Calendar Logic ---
 function renderCalendar(month, year) {
@@ -305,6 +504,80 @@ function showError(message) {
   autocompleteList.style.display = 'block';
 }
 
+// --- Freshness Check Function ---
+function checkFreshness() {
+  const foodName = foodNameInput.value.trim();
+  const storageInputValue = storageInput.value.trim();
+  const isOpened = openedSwitch.checked;
+  
+  if (!foodName) {
+    showError('Please enter a food name.');
+    return;
+  }
+  
+  if (!selectedDate) {
+    showError('Please select a purchase date.');
+    return;
+  }
+  
+  if (!storageInputValue) {
+    showError('Please enter storage location.');
+    return;
+  }
+  
+  const storageType = getStorageType(storageInputValue);
+  if (!storageType) {
+    showError('Please enter a valid storage location (fridge, freezer, or pantry).');
+    return;
+  }
+  
+  const purchaseDate = new Date(selectedDate.year, selectedDate.month, selectedDate.date);
+  const result = calculateFreshness(purchaseDate, storageType, isOpened, foodName);
+  
+  if (result) {
+    displayFreshnessResult(result, foodName, storageType, isOpened);
+  }
+}
+
+// --- Basket Functions ---
+function addToBasket() {
+  if (!currentFreshnessResult) {
+    alert('Please check freshness first before adding to basket.');
+    return;
+  }
+  
+  const basketData = {
+    ...currentFreshnessResult,
+    purchaseDate: new Date(selectedDate.year, selectedDate.month, selectedDate.date).toISOString(),
+    addedAt: new Date().toISOString()
+  };
+  
+  // Get existing basket
+  let basket = JSON.parse(localStorage.getItem('foodBasket') || '[]');
+  basket.push(basketData);
+  localStorage.setItem('foodBasket', JSON.stringify(basket));
+  
+  // Show success message
+  alert(`${basketData.foodName} has been added to your basket!`);
+  
+  // Reset form
+  resetForm();
+}
+
+function resetForm() {
+  foodNameInput.value = '';
+  selectedFood = null;
+  selectedDate = null;
+  storageInput.value = '';
+  openedSwitch.checked = false;
+  quantityContainer.style.display = 'none';
+  nutritionalPreview.style.display = 'none';
+  freshnessResult.style.display = 'none';
+  addToBasketBtn.style.display = 'none';
+  currentFreshnessResult = null;
+  renderCalendar(currentMonth, currentYear);
+}
+
 // --- Event Listeners ---
 foodNameInput.addEventListener('input', function() {
   const query = this.value.trim();
@@ -312,6 +585,8 @@ foodNameInput.addEventListener('input', function() {
   selectedFood = null;
   quantityContainer.style.display = 'none';
   nutritionalPreview.style.display = 'none';
+  freshnessResult.style.display = 'none';
+  addToBasketBtn.style.display = 'none';
   
   if (query.length >= 2) {
     searchFoods(query);
@@ -325,6 +600,9 @@ quantitySelect.addEventListener('change', () => {
     showNutritionalPreview();
   }
 });
+
+freshBtn.addEventListener('click', checkFreshness);
+addToBasketBtn.addEventListener('click', addToBasket);
 
 document.addEventListener('click', e => {
   if (!qs('.search-container').contains(e.target)) {

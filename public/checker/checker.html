@@ -7,6 +7,17 @@
 </head>
 <body>
     <div class="container">
+        <div class="header">
+            <button class="back-btn" id="backToHomeBtn">
+                <span>←</span>
+                Back to Home
+            </button>
+            <button class="basket-btn" id="viewBasketBtn">
+                <span>🛒</span>
+                View Basket
+            </button>
+        </div>
+        
         <div class="title" style="color: #7d6c5c; margin-bottom: 24px;">Check Your Food's Freshness</div>
         <div class="spacer" style="height: 16px;"></div>
         <div class="search-container">
@@ -90,7 +101,10 @@
             </label>
         </div>
         <div class="spacer"></div>
-        <button class="fresh-btn">Is it still fresh?</button>
+        <div class="action-buttons">
+            <button class="fresh-btn" id="checkFreshnessBtn">Is it still fresh?</button>
+            <button class="add-to-basket-btn" id="addToBasketBtn" style="display: none;">Add to Basket</button>
+        </div>
         <div style="height: 48px;"></div>
     </div>
     <div id="foodNamePopup" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.18); z-index:1000; align-items:center; justify-content:center;">

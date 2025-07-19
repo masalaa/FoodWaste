@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Freshness Results</title>
+    <link rel="stylesheet" href="resultpage.css">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <button class="back-btn" id="backToCheckerBtn">
+                <span>←</span>
+                Back to Checker
+            </button>
+            <h1 class="title">Your Food Basket</h1>
+        </div>
+
+        <div class="basket-summary">
+            <div class="summary-card">
+                <div class="summary-item">
+                    <span class="label">Total Items:</span>
+                    <span class="value" id="totalItems">0</span>
+                </div>
+                <div class="summary-item">
+                    <span class="label">Fresh Items:</span>
+                    <span class="value fresh" id="freshItems">0</span>
+                </div>
+                <div class="summary-item">
+                    <span class="label">Expired Items:</span>
+                    <span class="value expired" id="expiredItems">0</span>
+                </div>
+                <div class="summary-item">
+                    <span class="label">Use Soon:</span>
+                    <span class="value warning" id="warningItems">0</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="basket-items" id="basketItems">
+            <!-- Basket items will be dynamically added here -->
+        </div>
+
+        <div class="recommendations">
+            <h2>Recommendations</h2>
+            <div class="recommendation-list" id="recommendationList">
+                <!-- Recommendations will be dynamically added here -->
+            </div>
+        </div>
+
+        <div class="actions">
+            <button class="action-btn primary" id="checkMoreBtn">
+                Check More Foods
+            </button>
+            <button class="action-btn secondary" id="clearBasketBtn">
+                Clear Basket
+            </button>
+        </div>
+    </div>
+
+    <script src="resultpage.js"></script>
+</body>
+</html> 
