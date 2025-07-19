@@ -20,13 +20,23 @@ export default async function handler(req, res) {
   }
 
   try {
+    const appId = process.env.NUTRITIONIX_APP_ID;
+    const appKey = process.env.NUTRITIONIX_APP_KEY;
+    
     return res.status(200).json({
       message: 'Test endpoint working',
       method: req.method,
       timestamp: new Date().toISOString(),
       environment: {
-        hasAppId: !!process.env.NUTRITIONIX_APP_ID,
-        hasAppKey: !!process.env.NUTRITIONIX_APP_KEY
+        hasAppId: !!appId,
+        hasAppKey: !!appKey,
+        appIdLength: appId ? appId.length : 0,
+        appKeyLength: appKey ? appKey.length : 0
+      },
+      request: {
+        method: req.method,
+        headers: req.headers,
+        body: req.body
       }
     });
   } catch (error) {
