@@ -40,7 +40,7 @@ let smoothedTarget = new THREE.Vector3();
 let lastCursorX = 0.5;
 
 const loader = new GLTFLoader();
-loader.load('./Assets/bee.glb', (gltf) => {
+        loader.load('/Home/Assets/bee.glb', (gltf) => {
   bee = gltf.scene;
   bee.scale.set(0.5, 0.5, 0.5);
   bee.position.set(LEFT_X, BEE_Y, BEE_Z);
