@@ -94,6 +94,46 @@ h1 {
 .check-another:hover {
   background: #e6732a;
 }
+.back-btn {
+    display: inline-block;
+    background: #FF944D;
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    font-size: 1.08rem;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(255,165,0,0.10);
+    transition: background 0.2s;
+    padding: 12px 28px 12px 18px;
+    text-decoration: none;
+    letter-spacing: 0.5px;
+    position: absolute;
+    top: 22px;
+    left: 22px;
+    z-index: 10;
+    margin: 0;
+}
+.back-btn::before {
+    content: '\2190';
+    font-size: 1.2em;
+    margin-right: 10px;
+    vertical-align: middle;
+}
+.back-btn:hover, .back-btn:focus {
+    background: #e6732a;
+    animation: wobble 0.4s;
+    transform: scale(1.08, 0.92) rotate(-2deg);
+    box-shadow: 0 4px 16px rgba(255, 148, 77, 0.18);
+}
+@keyframes wobble {
+    0% { transform: scale(1,1) rotate(0deg); }
+    20% { transform: scale(1.12,0.88) rotate(-3deg); }
+    40% { transform: scale(0.96,1.08) rotate(2deg); }
+    60% { transform: scale(1.08,0.92) rotate(-2deg); }
+    80% { transform: scale(0.98,1.04) rotate(1deg); }
+    100% { transform: scale(1.08,0.92) rotate(-2deg); }
+}
 @media (max-width: 600px) {
   .result-block {
     flex-direction: column;
