@@ -168,6 +168,6 @@ function triggerHoneyButtonEffect() {
 const startBtn = document.getElementById('startChecking');
 if (startBtn) {
   startBtn.addEventListener('click', () => {
-    window.location.href = '../Checker/checker.html';
+            window.location.href = '/Checker/checker.html';
   });
 }

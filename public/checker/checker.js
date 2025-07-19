@@ -117,11 +117,11 @@ qs('.container').insertBefore(freshnessResult, qs('.action-buttons'));
 
 // --- Navigation Functions ---
 backToHomeBtn.addEventListener('click', () => {
-  window.location.href = '../Home/Home.html';
+          window.location.href = '/Home/Home.html';
 });
 
 viewBasketBtn.addEventListener('click', () => {
-  window.location.href = '../Result-page/resultpage.html';
+          window.location.href = '/Result-page/resultpage.html';
 });
 
 // --- Storage Logic Functions ---
