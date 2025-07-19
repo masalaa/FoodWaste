@@ -23,13 +23,27 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { query, nutrients, detailed } = req.body;
+    // Parse request body
+    let body;
+    try {
+      body = req.body;
+      if (typeof body === 'string') {
+        body = JSON.parse(body);
+      }
+    } catch (parseError) {
+      return res.status(400).json({
+        error: 'Invalid JSON',
+        message: 'Request body must be valid JSON'
+      });
+    }
+
+    const { query, nutrients, detailed } = body || {};
 
     // Validate required fields
-    if (!query) {
+    if (!query || typeof query !== 'string') {
       return res.status(400).json({ 
         error: 'Missing required field: query',
-        message: 'Query parameter is required'
+        message: 'Query parameter is required and must be a string'
       });
     }
 
@@ -83,12 +97,19 @@ export default async function handler(req, res) {
 
     const data = await apiResponse.json();
     
-    // Return the data with proper headers
-    res.status(200).json(data);
+    // Ensure we're returning a valid JSON response
+    if (data && typeof data === 'object') {
+      return res.status(200).json(data);
+    } else {
+      return res.status(500).json({
+        error: 'Invalid response from Nutritionix',
+        message: 'Received invalid data format from API'
+      });
+    }
 
   } catch (error) {
     console.error('Server error:', error);
-    res.status(500).json({
+    return res.status(500).json({
       error: 'Internal server error',
       message: 'Failed to process request',
       details: error.message
