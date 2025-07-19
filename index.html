@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Waste Checker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .button {
+            display: inline-block;
+            padding: 15px 30px;
+            margin: 10px;
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: bold;
+            transition: transform 0.3s ease;
+        }
+        .button:hover {
+            transform: translateY(-2px);
+        }
+        .status {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            background: #f8f9fa;
+        }
+        .test-button {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .test-button:hover {
+            background: #218838;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🍎 Food Waste Checker</h1>
+        <p>Check if your food is still fresh and get nutritional information!</p>
+        
+        <a href="public/Home/Home.html" class="button">🏠 Go to Home</a>
+        <a href="public/Checker/checker.html" class="button">🔍 Check Freshness</a>
+        
+        <div class="status">
+            <h3>API Status</h3>
+            <p id="apiStatus">Checking...</p>
+            <button class="test-button" onclick="testAPI()">Test API</button>
+            <button class="test-button" onclick="testSearch()">Test Search</button>
+            <div id="testResults"></div>
+        </div>
+    </div>
+
+    <script>
+        // Test API endpoints
+        async function checkAPIStatus() {
+            try {
+                const testResponse = await fetch('/api/test', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({})
+                });
+                const testData = await testResponse.json();
+                
+                const statusElement = document.getElementById('apiStatus');
+                if (testData.environment && testData.environment.hasAppId && testData.environment.hasAppKey) {
+                    statusElement.innerHTML = '✅ API is working correctly!';
+                    statusElement.style.color = 'green';
+                } else {
+                    statusElement.innerHTML = '⚠️ API credentials not configured';
+                    statusElement.style.color = 'orange';
+                }
+            } catch (error) {
+                document.getElementById('apiStatus').innerHTML = '❌ API not available';
+                document.getElementById('apiStatus').style.color = 'red';
+            }
+        }
+        
+        async function testAPI() {
+            const resultsDiv = document.getElementById('testResults');
+            resultsDiv.innerHTML = '<p>Testing API...</p>';
+            
+            try {
+                const response = await fetch('/api/test', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({})
+                });
+                
+                const data = await response.json();
+                resultsDiv.innerHTML = `
+                    <h4>Test API Response:</h4>
+                    <pre>${JSON.stringify(data, null, 2)}</pre>
+                `;
+            } catch (error) {
+                resultsDiv.innerHTML = `<p>Error: ${error.message}</p>`;
+            }
+        }
+        
+        async function testSearch() {
+            const resultsDiv = document.getElementById('testResults');
+            resultsDiv.innerHTML = '<p>Testing Search API...</p>';
+            
+            try {
+                const response = await fetch('/api/search', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        query: 'apple',
+                        detailed: true
+                    })
+                });
+                
+                const data = await response.json();
+                resultsDiv.innerHTML = `
+                    <h4>Search API Response:</h4>
+                    <pre>${JSON.stringify(data, null, 2)}</pre>
+                `;
+            } catch (error) {
+                resultsDiv.innerHTML = `<p>Error: ${error.message}</p>`;
+            }
+        }
+        
+        checkAPIStatus();
+    </script>
+</body>
+</html> 
