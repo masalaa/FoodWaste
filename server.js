@@ -1,9 +1,8 @@
+import express from 'express';
+import mongoose from 'mongoose';
+import dotenv from 'dotenv';
 
-
-const express = require('express');
-const mongoose = require('mongoose');
-require('dotenv').config();
-
+dotenv.config();
 
 const app = express();
 app.use(express.json());
@@ -17,8 +16,6 @@ mongoose.connect(MONGO_URL)
 
 const UserSchema = new mongoose.Schema({ name: String });
 const UserModel = mongoose.model('Health', UserSchema);
-
-
 
 app.listen(PORT, () => {
   console.log(`🚀 Server is running on http://localhost:${PORT}`);
