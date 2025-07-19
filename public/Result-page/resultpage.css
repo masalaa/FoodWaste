@@ -27,11 +27,11 @@ body, html {
   display: flex;
   align-items: center;
   gap: 8px;
-  background: #FFF1E3;
+  background: #FF944D;
   border: 1px solid #FF944D;
   border-radius: 8px;
   padding: 8px 16px;
-  color: #4A1F0F;
+  color: white;
   font-family: 'Fredoka', Arial, sans-serif;
   font-size: 14px;
   font-weight: 500;
@@ -40,8 +40,14 @@ body, html {
 }
 
 .back-btn:hover {
-  background: #FF944D;
+  background: #E67E22;
   color: white;
+  animation: giggle 0.3s cubic-bezier(.34,1.56,.64,1);
+}
+
+.back-btn:active {
+  transform: scale(0.95);
+  animation: squeeze 0.2s ease;
 }
 
 .back-btn span {
@@ -122,6 +128,7 @@ body, html {
 
 .basket-item:hover {
   transform: translateY(-2px);
+  animation: giggle 0.3s cubic-bezier(.34,1.56,.64,1);
 }
 
 .basket-item.fresh {
@@ -261,6 +268,12 @@ body, html {
   padding: 12px 16px;
   border-left: 4px solid #FF944D;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease;
+}
+
+.recommendation-item:hover {
+  transform: translateY(-1px);
+  animation: giggle 0.2s ease;
 }
 
 .recommendation-item.urgent {
@@ -305,17 +318,29 @@ body, html {
 .action-btn.primary:hover {
   background: #E67E22;
   transform: translateY(-2px);
+  animation: giggle 0.3s cubic-bezier(.34,1.56,.64,1);
+}
+
+.action-btn.primary:active {
+  transform: scale(0.95);
+  animation: squeeze 0.2s ease;
 }
 
 .action-btn.secondary {
-  background: #FFF1E3;
-  color: #4A1F0F;
-  border: 1px solid #FF944D;
+  background: #F44336;
+  color: white;
+  border: 1px solid #F44336;
 }
 
 .action-btn.secondary:hover {
-  background: #FF944D;
+  background: #D32F2F;
   color: white;
+  animation: giggle 0.3s cubic-bezier(.34,1.56,.64,1);
+}
+
+.action-btn.secondary:active {
+  transform: scale(0.95);
+  animation: squeeze 0.2s ease;
 }
 
 /* Empty State */
@@ -386,4 +411,17 @@ body, html {
 
 .basket-item {
   animation: slideIn 0.3s ease;
+}
+
+/* Animation Keyframes */
+@keyframes giggle {
+  0%, 100% { transform: translateY(0) scale(1); }
+  25% { transform: translateY(-2px) scale(1.02); }
+  50% { transform: translateY(1px) scale(0.98); }
+  75% { transform: translateY(-1px) scale(1.01); }
+}
+
+@keyframes squeeze {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(0.95); }
 } 
