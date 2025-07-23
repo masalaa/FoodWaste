@@ -425,3 +425,80 @@ body, html {
   0%, 100% { transform: scale(1); }
   50% { transform: scale(0.95); }
 } 
+ 
+
+@media (max-width: 768px) {
+  body, html {
+    font-size: 15px;
+  }
+
+  .container {
+    padding: 12px;
+  }
+
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .title {
+    font-size: 1.5rem;
+    text-align: left;
+  }
+
+  .back-btn {
+    padding: 6px 12px;
+    font-size: 13px;
+  }
+
+  .summary-card, .basket-item, .recommendation-item {
+    padding: 14px;
+  }
+
+  .item-details {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+
+  .detail-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+
+  .item-name {
+    font-size: 16px;
+  }
+
+  .item-status {
+    font-size: 11px;
+  }
+
+  .recommendations h2 {
+    font-size: 1.2rem;
+  }
+
+  .actions {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .action-btn {
+    width: 100%;
+    font-size: 15px;
+    padding: 10px;
+  }
+
+  .empty-basket {
+    padding: 24px 12px;
+  }
+
+  .empty-basket h3 {
+    font-size: 1.3rem;
+  }
+
+  .empty-basket p {
+    font-size: 14px;
+  }
+}

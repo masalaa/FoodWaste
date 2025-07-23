@@ -869,3 +869,110 @@ input:checked + .slider:before {
     background: linear-gradient(to right, transparent, #FF944D, transparent);
     margin: 24px 0;
 }
+/* Responsive Design for Mobile Devices */
+@media screen and (max-width: 768px) {
+  .container {
+    padding: 16px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .header {
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .back-btn, .basket-btn {
+    width: 100%;
+    font-size: 1rem;
+    padding: 10px;
+  }
+
+  .title {
+    font-size: 1.5rem;
+    text-align: center;
+    word-wrap: break-word;
+  }
+
+  .search-container {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .search-bar {
+    width: 100%;
+    font-size: 1rem;
+    padding: 10px;
+  }
+
+  .icon {
+    justify-content: center;
+    margin-top: 10px;
+  }
+
+  .food-type-tab {
+    flex-direction: column;
+    gap: 12px;
+    align-items: center;
+  }
+
+  .food-type-box {
+    width: 100%;
+    justify-content: center;
+    padding: 10px 0;
+  }
+
+  .calendar-section {
+    width: 100%;
+    overflow-x: auto;
+  }
+
+  .calendar {
+    grid-template-columns: repeat(7, 1fr);
+  }
+
+  .month-slider {
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .input-label {
+    font-size: 1rem;
+    text-align: center;
+  }
+
+  .storage-bar {
+    width: 100%;
+    font-size: 1rem;
+    padding: 10px;
+  }
+
+  .opened-row {
+    justify-content: space-between;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .action-buttons {
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 20px;
+  }
+
+  .fresh-btn,
+  .add-to-basket-btn {
+    width: 100%;
+    font-size: 1rem;
+    padding: 12px;
+  }
+
+  #foodNamePopup > div,
+  #futureDatePopup > div {
+    width: 90%;
+    max-width: 320px;
+    margin: auto;
+  }
+}
