@@ -251,4 +251,63 @@ body, html {
     opacity: 0;
   }
 }
-  
+  /* Existing styles above remain unchanged */
+
+/* ✅ Add this at the END of your CSS for mobile responsiveness */
+@media (max-width: 768px) {
+  canvas#bee-canvas {
+    width: 100vw !important;
+    height: 100vh !important;
+  }
+
+  .emoji {
+    font-size: 1.8rem;
+  }
+
+  .hero-title {
+    font-size: 2rem;
+    margin-top: 3.5rem;
+    padding: 0 1rem;
+  }
+
+  .hero-subtitle {
+    font-size: 1rem;
+    padding: 0 1.2rem;
+  }
+
+  .cta-btn {
+    font-size: 1rem;
+    padding: 0.8rem 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .why-title {
+    font-size: 1.4rem;
+    padding: 0 1rem;
+  }
+
+  .why-cards {
+    flex-direction: column;
+    gap: 1.2rem;
+    align-items: center;
+  }
+
+  .why-card {
+    min-width: 200px;
+    max-width: 90%;
+    padding: 1.8rem 1rem;
+  }
+
+  .card-emoji {
+    font-size: 1.6rem;
+  }
+
+  .card-text {
+    font-size: 0.95rem;
+  }
+
+  #startChecking {
+    font-size: 1rem;
+    padding: 0.8rem 1.8rem;
+  }
+}

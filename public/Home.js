@@ -42,7 +42,14 @@ let lastCursorX = 0.5;
 const loader = new GLTFLoader();
         loader.load('Assets/bee.glb', (gltf) => {
   bee = gltf.scene;
-  bee.scale.set(0.5, 0.5, 0.5);
+  
+  // ✅ Adjust bee size based on screen width
+  if (window.innerWidth < 768) {
+    bee.scale.set(0.2, 0.2, 0.2); // smaller on phones
+  } else {
+    bee.scale.set(0.5, 0.5, 0.5); // default on desktop
+  }
+
   bee.position.set(LEFT_X, BEE_Y, BEE_Z);
   bee.rotation.y = beeRotationTarget;
   scene.add(bee);
@@ -149,6 +156,15 @@ window.addEventListener('resize', () => {
 window.addEventListener('mousemove', (e) => {
   mouse.x = e.clientX / window.innerWidth;
   mouse.y = e.clientY / window.innerHeight;
+});
+
+// Track touch input for mobile
+window.addEventListener('touchmove', (e) => {
+  if (e.touches.length > 0) {
+    const touch = e.touches[0];
+    mouse.x = touch.clientX / window.innerWidth;
+    mouse.y = touch.clientY / window.innerHeight;
+  }
 });
 
 // === BUTTON HONEY EFFECT ===
